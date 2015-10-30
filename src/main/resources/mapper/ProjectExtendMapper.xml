@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.appleframework.deploy.dao.extend.ProjectExtendMapper" >
+  <resultMap id="BaseResultMap" type="com.appleframework.deploy.entity.Project" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="version" property="version" jdbcType="VARCHAR" />
+    <result column="nexus_url" property="nexusUrl" jdbcType="VARCHAR" />
+    <result column="nexus_group" property="nexusGroup" jdbcType="VARCHAR" />
+    <result column="nexus_artifact" property="nexusArtifact" jdbcType="VARCHAR" />
+    <result column="release_user" property="releaseUser" jdbcType="VARCHAR" />
+    <result column="release_to" property="releaseTo" jdbcType="VARCHAR" />
+    <result column="is_audit" property="isAudit" jdbcType="BIT" />
+    <result column="create_at" property="createAt" jdbcType="TIMESTAMP" />
+    <result column="update_at" property="updateAt" jdbcType="TIMESTAMP" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.appleframework.deploy.entity.ProjectWithBLOBs" extends="BaseResultMap" >
+    <result column="hosts" property="hosts" jdbcType="LONGVARCHAR" />
+    <result column="pre_deploy" property="preDeploy" jdbcType="LONGVARCHAR" />
+    <result column="post_deploy" property="postDeploy" jdbcType="LONGVARCHAR" />
+    <result column="pre_release" property="preRelease" jdbcType="LONGVARCHAR" />
+    <result column="post_release" property="postRelease" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, status, version, nexus_url, nexus_group, nexus_artifact, release_user, 
+    release_to, is_audit, create_at, update_at, create_by, update_by
+  </sql>
+  <sql id="Blob_Column_List" >
+    hosts, pre_deploy, post_deploy, pre_release, post_release
+  </sql>
+  
+  <select id="selectByPage" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dep_project
+    where 1=1
+    <if test="keyword != null" >
+        and name like '%${keyword}%'
+	</if>
+	order by id asc
+  </select>
+  
+  <select id="selectByAll" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dep_project
+	
+  </select>
+
+</mapper>

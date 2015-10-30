@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.appleframework.deploy.dao.RecordMapper" >
+  <resultMap id="BaseResultMap" type="com.appleframework.deploy.entity.Record" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="task_id" property="taskId" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="action" property="action" jdbcType="INTEGER" />
+    <result column="duration" property="duration" jdbcType="INTEGER" />
+    <result column="create_at" property="createAt" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.appleframework.deploy.entity.RecordWithBLOBs" extends="BaseResultMap" >
+    <result column="command" property="command" jdbcType="LONGVARCHAR" />
+    <result column="memo" property="memo" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, task_id, status, action, duration, create_at
+  </sql>
+  <sql id="Blob_Column_List" >
+    command, memo
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from dep_record
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from dep_record
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.appleframework.deploy.entity.RecordWithBLOBs" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into dep_record (task_id, status, action, 
+      duration, create_at, command, 
+      memo)
+    values (#{taskId,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{action,jdbcType=INTEGER}, 
+      #{duration,jdbcType=INTEGER}, #{createAt,jdbcType=TIMESTAMP}, #{command,jdbcType=LONGVARCHAR}, 
+      #{memo,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.appleframework.deploy.entity.RecordWithBLOBs" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into dep_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="taskId != null" >
+        task_id,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="action != null" >
+        action,
+      </if>
+      <if test="duration != null" >
+        duration,
+      </if>
+      <if test="createAt != null" >
+        create_at,
+      </if>
+      <if test="command != null" >
+        command,
+      </if>
+      <if test="memo != null" >
+        memo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="taskId != null" >
+        #{taskId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="action != null" >
+        #{action,jdbcType=INTEGER},
+      </if>
+      <if test="duration != null" >
+        #{duration,jdbcType=INTEGER},
+      </if>
+      <if test="createAt != null" >
+        #{createAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="command != null" >
+        #{command,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.appleframework.deploy.entity.RecordWithBLOBs" >
+    update dep_record
+    <set >
+      <if test="taskId != null" >
+        task_id = #{taskId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="action != null" >
+        action = #{action,jdbcType=INTEGER},
+      </if>
+      <if test="duration != null" >
+        duration = #{duration,jdbcType=INTEGER},
+      </if>
+      <if test="createAt != null" >
+        create_at = #{createAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="command != null" >
+        command = #{command,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="memo != null" >
+        memo = #{memo,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.appleframework.deploy.entity.RecordWithBLOBs" >
+    update dep_record
+    set task_id = #{taskId,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      action = #{action,jdbcType=INTEGER},
+      duration = #{duration,jdbcType=INTEGER},
+      create_at = #{createAt,jdbcType=TIMESTAMP},
+      command = #{command,jdbcType=LONGVARCHAR},
+      memo = #{memo,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.appleframework.deploy.entity.Record" >
+    update dep_record
+    set task_id = #{taskId,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      action = #{action,jdbcType=INTEGER},
+      duration = #{duration,jdbcType=INTEGER},
+      create_at = #{createAt,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

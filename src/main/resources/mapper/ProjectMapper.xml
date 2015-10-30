@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.appleframework.deploy.dao.ProjectMapper" >
+  <resultMap id="BaseResultMap" type="com.appleframework.deploy.entity.Project" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="version" property="version" jdbcType="VARCHAR" />
+    <result column="nexus_url" property="nexusUrl" jdbcType="VARCHAR" />
+    <result column="nexus_group" property="nexusGroup" jdbcType="VARCHAR" />
+    <result column="nexus_artifact" property="nexusArtifact" jdbcType="VARCHAR" />
+    <result column="release_user" property="releaseUser" jdbcType="VARCHAR" />
+    <result column="release_to" property="releaseTo" jdbcType="VARCHAR" />
+    <result column="is_audit" property="isAudit" jdbcType="BIT" />
+    <result column="create_at" property="createAt" jdbcType="TIMESTAMP" />
+    <result column="update_at" property="updateAt" jdbcType="TIMESTAMP" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.appleframework.deploy.entity.ProjectWithBLOBs" extends="BaseResultMap" >
+    <result column="hosts" property="hosts" jdbcType="LONGVARCHAR" />
+    <result column="pre_deploy" property="preDeploy" jdbcType="LONGVARCHAR" />
+    <result column="post_deploy" property="postDeploy" jdbcType="LONGVARCHAR" />
+    <result column="pre_release" property="preRelease" jdbcType="LONGVARCHAR" />
+    <result column="post_release" property="postRelease" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, type, status, version, nexus_url, nexus_group, nexus_artifact, release_user, 
+    release_to, is_audit, create_at, update_at, create_by, update_by
+  </sql>
+  <sql id="Blob_Column_List" >
+    hosts, pre_deploy, post_deploy, pre_release, post_release
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from dep_project
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from dep_project
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.appleframework.deploy.entity.ProjectWithBLOBs" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into dep_project (name, type, status, 
+      version, nexus_url, nexus_group, 
+      nexus_artifact, release_user, release_to, 
+      is_audit, create_at, update_at, 
+      create_by, update_by, hosts, 
+      pre_deploy, post_deploy, pre_release, 
+      post_release)
+    values (#{name,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
+      #{version,jdbcType=VARCHAR}, #{nexusUrl,jdbcType=VARCHAR}, #{nexusGroup,jdbcType=VARCHAR}, 
+      #{nexusArtifact,jdbcType=VARCHAR}, #{releaseUser,jdbcType=VARCHAR}, #{releaseTo,jdbcType=VARCHAR}, 
+      #{isAudit,jdbcType=BIT}, #{createAt,jdbcType=TIMESTAMP}, #{updateAt,jdbcType=TIMESTAMP}, 
+      #{createBy,jdbcType=VARCHAR}, #{updateBy,jdbcType=VARCHAR}, #{hosts,jdbcType=LONGVARCHAR}, 
+      #{preDeploy,jdbcType=LONGVARCHAR}, #{postDeploy,jdbcType=LONGVARCHAR}, #{preRelease,jdbcType=LONGVARCHAR}, 
+      #{postRelease,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.appleframework.deploy.entity.ProjectWithBLOBs" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into dep_project
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="version != null" >
+        version,
+      </if>
+      <if test="nexusUrl != null" >
+        nexus_url,
+      </if>
+      <if test="nexusGroup != null" >
+        nexus_group,
+      </if>
+      <if test="nexusArtifact != null" >
+        nexus_artifact,
+      </if>
+      <if test="releaseUser != null" >
+        release_user,
+      </if>
+      <if test="releaseTo != null" >
+        release_to,
+      </if>
+      <if test="isAudit != null" >
+        is_audit,
+      </if>
+      <if test="createAt != null" >
+        create_at,
+      </if>
+      <if test="updateAt != null" >
+        update_at,
+      </if>
+      <if test="createBy != null" >
+        create_by,
+      </if>
+      <if test="updateBy != null" >
+        update_by,
+      </if>
+      <if test="hosts != null" >
+        hosts,
+      </if>
+      <if test="preDeploy != null" >
+        pre_deploy,
+      </if>
+      <if test="postDeploy != null" >
+        post_deploy,
+      </if>
+      <if test="preRelease != null" >
+        pre_release,
+      </if>
+      <if test="postRelease != null" >
+        post_release,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="nexusUrl != null" >
+        #{nexusUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="nexusGroup != null" >
+        #{nexusGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="nexusArtifact != null" >
+        #{nexusArtifact,jdbcType=VARCHAR},
+      </if>
+      <if test="releaseUser != null" >
+        #{releaseUser,jdbcType=VARCHAR},
+      </if>
+      <if test="releaseTo != null" >
+        #{releaseTo,jdbcType=VARCHAR},
+      </if>
+      <if test="isAudit != null" >
+        #{isAudit,jdbcType=BIT},
+      </if>
+      <if test="createAt != null" >
+        #{createAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateAt != null" >
+        #{updateAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="hosts != null" >
+        #{hosts,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="preDeploy != null" >
+        #{preDeploy,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="postDeploy != null" >
+        #{postDeploy,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="preRelease != null" >
+        #{preRelease,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="postRelease != null" >
+        #{postRelease,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.appleframework.deploy.entity.ProjectWithBLOBs" >
+    update dep_project
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="version != null" >
+        version = #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="nexusUrl != null" >
+        nexus_url = #{nexusUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="nexusGroup != null" >
+        nexus_group = #{nexusGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="nexusArtifact != null" >
+        nexus_artifact = #{nexusArtifact,jdbcType=VARCHAR},
+      </if>
+      <if test="releaseUser != null" >
+        release_user = #{releaseUser,jdbcType=VARCHAR},
+      </if>
+      <if test="releaseTo != null" >
+        release_to = #{releaseTo,jdbcType=VARCHAR},
+      </if>
+      <if test="isAudit != null" >
+        is_audit = #{isAudit,jdbcType=BIT},
+      </if>
+      <if test="createAt != null" >
+        create_at = #{createAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateAt != null" >
+        update_at = #{updateAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateBy != null" >
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="hosts != null" >
+        hosts = #{hosts,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="preDeploy != null" >
+        pre_deploy = #{preDeploy,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="postDeploy != null" >
+        post_deploy = #{postDeploy,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="preRelease != null" >
+        pre_release = #{preRelease,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="postRelease != null" >
+        post_release = #{postRelease,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.appleframework.deploy.entity.ProjectWithBLOBs" >
+    update dep_project
+    set name = #{name,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      version = #{version,jdbcType=VARCHAR},
+      nexus_url = #{nexusUrl,jdbcType=VARCHAR},
+      nexus_group = #{nexusGroup,jdbcType=VARCHAR},
+      nexus_artifact = #{nexusArtifact,jdbcType=VARCHAR},
+      release_user = #{releaseUser,jdbcType=VARCHAR},
+      release_to = #{releaseTo,jdbcType=VARCHAR},
+      is_audit = #{isAudit,jdbcType=BIT},
+      create_at = #{createAt,jdbcType=TIMESTAMP},
+      update_at = #{updateAt,jdbcType=TIMESTAMP},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      hosts = #{hosts,jdbcType=LONGVARCHAR},
+      pre_deploy = #{preDeploy,jdbcType=LONGVARCHAR},
+      post_deploy = #{postDeploy,jdbcType=LONGVARCHAR},
+      pre_release = #{preRelease,jdbcType=LONGVARCHAR},
+      post_release = #{postRelease,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.appleframework.deploy.entity.Project" >
+    update dep_project
+    set name = #{name,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      version = #{version,jdbcType=VARCHAR},
+      nexus_url = #{nexusUrl,jdbcType=VARCHAR},
+      nexus_group = #{nexusGroup,jdbcType=VARCHAR},
+      nexus_artifact = #{nexusArtifact,jdbcType=VARCHAR},
+      release_user = #{releaseUser,jdbcType=VARCHAR},
+      release_to = #{releaseTo,jdbcType=VARCHAR},
+      is_audit = #{isAudit,jdbcType=BIT},
+      create_at = #{createAt,jdbcType=TIMESTAMP},
+      update_at = #{updateAt,jdbcType=TIMESTAMP},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      update_by = #{updateBy,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
