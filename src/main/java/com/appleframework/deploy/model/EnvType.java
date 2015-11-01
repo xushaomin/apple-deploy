@@ -2,23 +2,23 @@ package com.appleframework.deploy.model;
 
 public enum EnvType {
 
-	DEVELOP("开发环境", (short)1),
-	TEST("测试环境", (short)2),
-	DEMO("预发布环境", (short)3),	
-	RELEASE("正式环境", (short)4);
+	DEVELOP("开发环境", 1),
+	TEST("测试环境", 2),
+	DEMO("预发布环境", 3),	
+	RELEASE("正式环境", 4);
 	
 	// 成员变量
 	private String name;
-	private Short index;
+	private Integer index;
 
 	// 构造方法
-	private EnvType(String name, Short index) {
+	private EnvType(String name, Integer index) {
 		this.name = name;
 		this.index = index;
 	}
 	
 	// 普通方法
-	public static String getName(Short index) {
+	public static String getName(Integer index) {
 		for (EnvType c : EnvType.values()) {
 			if (c.getIndex() == index) {
 				return c.name;
@@ -35,11 +35,11 @@ public enum EnvType {
 		this.name = name;
 	}
 
-	public Short getIndex() {
+	public Integer getIndex() {
 		return index;
 	}
 
-	public void setIndex(Short index) {
+	public void setIndex(Integer index) {
 		this.index = index;
 	}	
 

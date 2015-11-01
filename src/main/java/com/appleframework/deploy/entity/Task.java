@@ -13,8 +13,6 @@ public class Task implements Serializable {
 
     private String title;
 
-    private Integer env;
-
     private Integer action;
 
     private Integer status;
@@ -63,14 +61,6 @@ public class Task implements Serializable {
 
     public void setTitle(String title) {
         this.title = title == null ? null : title.trim();
-    }
-
-    public Integer getEnv() {
-        return env;
-    }
-
-    public void setEnv(Integer env) {
-        this.env = env;
     }
 
     public Integer getAction() {

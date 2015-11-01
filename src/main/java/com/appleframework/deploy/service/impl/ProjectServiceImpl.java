@@ -11,6 +11,7 @@ import com.appleframework.deploy.dao.ProjectMapper;
 import com.appleframework.deploy.dao.extend.ProjectExtendMapper;
 import com.appleframework.deploy.entity.Project;
 import com.appleframework.deploy.entity.ProjectWithBLOBs;
+import com.appleframework.deploy.model.ProjectSo;
 import com.appleframework.deploy.service.ProjectService;
 import com.appleframework.exception.AppleException;
 import com.appleframework.model.page.Pagination;
@@ -87,8 +88,8 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 	
 	@Override
-	public Pagination findPageByName(Pagination page,  String keyword) {
-		page.setList(projectExtendMapper.selectByPage(page, keyword));
+	public Pagination findPage(Pagination page,  ProjectSo so) {
+		page.setList(projectExtendMapper.selectByPage(page, so));
 		return page;
 	}
 	

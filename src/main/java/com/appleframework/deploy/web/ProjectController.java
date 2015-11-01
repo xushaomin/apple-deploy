@@ -1,6 +1,10 @@
 package com.appleframework.deploy.web;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +18,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.appleframework.deploy.entity.Project;
 import com.appleframework.deploy.entity.ProjectWithBLOBs;
+import com.appleframework.deploy.model.EnvType;
+import com.appleframework.deploy.model.ProjectSo;
 import com.appleframework.deploy.service.ProjectService;
 import com.appleframework.exception.AppleException;
 import com.appleframework.model.page.Pagination;
@@ -29,10 +35,12 @@ public class ProjectController extends BaseController {
 	private String viewModel = "project/";
 	
 	@RequestMapping(value = "/list")
-	public String list(Model model, String keyword, Pagination page, HttpServletRequest request) {
-		page = projectService.findPageByName(page, keyword);
-		model.addAttribute("keyword", keyword);
+	public String list(Model model, ProjectSo so, Pagination page, HttpServletRequest request) {
+		page = projectService.findPage(page, so);
+		model.addAttribute("so", so);
 		model.addAttribute("page", page);
+		model.addAttribute("envTypeMap", this.getEnvTypeMap());
+		model.addAttribute("envTypeList", this.getEnvTypeList());
 		return viewModel + "list";
 	}
 	
@@ -61,8 +69,9 @@ public class ProjectController extends BaseController {
 	
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public String edit(Model model, Integer id, HttpServletResponse response) throws Exception {
-		Project info = projectService.get(id);
+		ProjectWithBLOBs info = projectService.get(id);
 		model.addAttribute("info", info);
+		model.addAttribute("envTypeList", this.getEnvTypeList());
 		return viewModel + "/edit";
 	}
 	
@@ -97,6 +106,19 @@ public class ProjectController extends BaseController {
 		} else {
 			return ajax("false");
 		}
+	}
+	
+	public List<EnvType> getEnvTypeList() {
+		return Arrays.asList(EnvType.values());
+	}
+	
+	public Map<String, EnvType> getEnvTypeMap() {
+		List<EnvType> list = this.getEnvTypeList();
+		Map<String, EnvType> map = new HashMap<String, EnvType>();
+		for (EnvType envType : list) {
+			map.put(envType.getIndex() + "", envType);
+		}
+		return map;
 	}
 			
 }

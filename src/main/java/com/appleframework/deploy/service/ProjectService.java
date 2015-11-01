@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.appleframework.deploy.entity.Project;
 import com.appleframework.deploy.entity.ProjectWithBLOBs;
+import com.appleframework.deploy.model.ProjectSo;
 import com.appleframework.exception.AppleException;
 import com.appleframework.model.page.Pagination;
 
@@ -27,6 +28,6 @@ public interface ProjectService {
 	
 	public Project getByName(String name);
 	
-	public Pagination findPageByName(Pagination page,  String keyword);
+	public Pagination findPage(Pagination page,  ProjectSo so);
 	
 }

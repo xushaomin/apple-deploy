@@ -1,10 +1,6 @@
 package com.appleframework.deploy.web;
 
-import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.appleframework.deploy.entity.Task;
-import com.appleframework.deploy.model.EnvType;
 import com.appleframework.deploy.service.DeployService;
 import com.appleframework.deploy.service.TaskService;
 import com.appleframework.deploy.utils.Constants;
@@ -43,8 +38,6 @@ public class TaskController extends BaseController {
 		model.addAttribute("projectId", projectId);
 		model.addAttribute("keyword", keyword);
 		model.addAttribute("page", page);
-		model.addAttribute("envTypeMap", this.getEnvTypeMap());
-		model.addAttribute("envTypeList", this.getEnvTypeList());
 		return viewModel + "list";
 	}
 	
@@ -111,20 +104,6 @@ public class TaskController extends BaseController {
 			e.printStackTrace();
 		}
 		return viewModel + "/deploy";
-	}
-	
-	public List<EnvType> getEnvTypeList() {
-		return Arrays.asList(EnvType.values());
-	}
-	
-	public Map<String, EnvType> getEnvTypeMap() {
-		List<EnvType> list = this.getEnvTypeList();
-		Map<String, EnvType> map = new HashMap<String, EnvType>();
-		for (EnvType envType : list) {
-			map.put(envType.getIndex() + "", envType);
-		}
-		System.out.println(map);
-		return map;
 	}
 		
 }

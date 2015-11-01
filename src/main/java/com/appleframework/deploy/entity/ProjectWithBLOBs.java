@@ -3,15 +3,14 @@ package com.appleframework.deploy.entity;
 import java.io.Serializable;
 
 public class ProjectWithBLOBs extends Project implements Serializable {
-    private String hosts;
+    
+	private String hosts;
 
     private String preDeploy;
 
     private String postDeploy;
 
-    private String preRelease;
-
-    private String postRelease;
+    private String afterDeploy;
 
     private static final long serialVersionUID = 1L;
 
@@ -39,19 +38,12 @@ public class ProjectWithBLOBs extends Project implements Serializable {
         this.postDeploy = postDeploy == null ? null : postDeploy.trim();
     }
 
-    public String getPreRelease() {
-        return preRelease;
+    public String getAfterDeploy() {
+        return afterDeploy;
     }
 
-    public void setPreRelease(String preRelease) {
-        this.preRelease = preRelease == null ? null : preRelease.trim();
+    public void setAfterDeploy(String afterDeploy) {
+        this.afterDeploy = afterDeploy == null ? null : afterDeploy.trim();
     }
 
-    public String getPostRelease() {
-        return postRelease;
-    }
-
-    public void setPostRelease(String postRelease) {
-        this.postRelease = postRelease == null ? null : postRelease.trim();
-    }
 }

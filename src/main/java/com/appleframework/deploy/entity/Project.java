@@ -4,11 +4,14 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class Project implements Serializable {
+	
     private Integer id;
 
     private String name;
 
     private Integer type;
+    
+    private Integer env;
 
     private Integer status;
 
@@ -155,4 +158,13 @@ public class Project implements Serializable {
     public void setUpdateBy(String updateBy) {
         this.updateBy = updateBy == null ? null : updateBy.trim();
     }
+
+	public Integer getEnv() {
+		return env;
+	}
+
+	public void setEnv(Integer env) {
+		this.env = env;
+	}
+    
 }
