@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -86,15 +87,15 @@ public class ProjectController extends BaseController {
 	public String update(Model model, ProjectWithBLOBs project, HttpServletResponse response) {
 		try {
 			ProjectWithBLOBs old = projectService.get(project.getId());
-			old.setName(project.getName());
-			old.setName(project.getName());
+			String[] ignoreProperties = {"createTime"};
+			BeanUtils.copyProperties(project, old, ignoreProperties);
 			old.setUpdateAt(new Date());
 			projectService.update(old);
 		} catch (AppleException e) {
 			addErrorMessage(model, e.getMessage());
 			return "/commons/error_ajax";
 		}
-		addSuccessMessage(model, "修改应用成功", "list");
+		addSuccessMessage(model, "修改成功");
 		return "/commons/success_ajax";
 	}
 	
