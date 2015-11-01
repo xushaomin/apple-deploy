@@ -5,6 +5,8 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="env" property="env" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="INTEGER" />
     <result column="version" property="version" jdbcType="VARCHAR" />
     <result column="nexus_url" property="nexusUrl" jdbcType="VARCHAR" />
     <result column="nexus_group" property="nexusGroup" jdbcType="VARCHAR" />
@@ -21,15 +23,14 @@
     <result column="hosts" property="hosts" jdbcType="LONGVARCHAR" />
     <result column="pre_deploy" property="preDeploy" jdbcType="LONGVARCHAR" />
     <result column="post_deploy" property="postDeploy" jdbcType="LONGVARCHAR" />
-    <result column="pre_release" property="preRelease" jdbcType="LONGVARCHAR" />
-    <result column="post_release" property="postRelease" jdbcType="LONGVARCHAR" />
+    <result column="after_deploy" property="afterDeploy" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, status, version, nexus_url, nexus_group, nexus_artifact, release_user, 
+    id, name, status, type, env, version, nexus_url, nexus_group, nexus_artifact, release_user, 
     release_to, is_audit, create_at, update_at, create_by, update_by
   </sql>
   <sql id="Blob_Column_List" >
-    hosts, pre_deploy, post_deploy, pre_release, post_release
+    hosts, pre_deploy, post_deploy, after_deploy
   </sql>
   
   <select id="selectByPage" resultMap="BaseResultMap">
@@ -37,8 +38,11 @@
     <include refid="Base_Column_List" />
     from dep_project
     where 1=1
-    <if test="keyword != null" >
-        and name like '%${keyword}%'
+    <if test="so.name != null" >
+        and name like '%${so.name}%'
+	</if>
+	<if test="so.env != null" >
+        and env =  ${so.env}
 	</if>
 	order by id asc
   </select>
