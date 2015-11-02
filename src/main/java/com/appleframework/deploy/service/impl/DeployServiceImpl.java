@@ -68,9 +68,12 @@ public class DeployServiceImpl implements DeployService {
 			StringBuffer commandBuffer = new StringBuffer();
 			commandBuffer.append("mkdir -p " + project.getReleaseTo() + "\n");
 
+			// pre deploy
 			if(!StringUtils.isEmpty(project.getPreDeploy())) {
 				commandBuffer.append(project.getPreDeploy() + "\n");
 			}
+			
+			// post deploy
 			if (project.getType() == DeployType.NEXUS.getIndex()) {
 				commandBuffer.append(project.getPostDeploy() + " ");
 				commandBuffer.append(project.getReleaseTo() + " ");
@@ -78,6 +81,16 @@ public class DeployServiceImpl implements DeployService {
 				commandBuffer.append(project.getNexusGroup() + " ");
 				commandBuffer.append(project.getNexusArtifact() + " ");
 				commandBuffer.append(project.getVersion() + " ");
+			}
+			else {
+				if(!StringUtils.isEmpty(project.getPostDeploy())) {
+					commandBuffer.append(project.getPostDeploy() + "\n");
+				}
+			}
+			
+			// after deploy
+			if(!StringUtils.isEmpty(project.getAfterDeploy())) {
+				commandBuffer.append(project.getAfterDeploy() + "\n");
 			}
 			
 			Session session = null;
@@ -87,9 +100,9 @@ public class DeployServiceImpl implements DeployService {
 				jsch.addIdentity("/root/.ssh/id_dsa");
 				session = jsch.getSession(project.getReleaseUser(), host, 22);
 				java.util.Properties config = new java.util.Properties();
+				//设置第一次登陆的时候提示，可选值：(ask | yes | no)
 				config.put("StrictHostKeyChecking", "no");
 				session.setConfig(config);
-				//session.setPassword("Jn+XSK!H");
 				//session.setPassword("123456");
 				session.connect();
 				openChannel = (ChannelExec) session.openChannel("exec");
