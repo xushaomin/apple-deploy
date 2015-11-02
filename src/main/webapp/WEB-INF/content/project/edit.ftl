@@ -14,15 +14,10 @@ $().ready(function() {
 	// 表单验证
 	$inputForm.validate({
 		rules: {
-			"code": {
-				required: true,
-				remote: "check_code?oldCode=${(info.name)!}"
-			}
+			
 		},
 		messages: {
-			"code": {
-				remote: "编码已存在"
-			}
+			
 		},
 		submitHandler:function(form){
             form.submit();
@@ -33,8 +28,28 @@ $().ready(function() {
  		$inputForm.submit();
 	});
 	
+	$(".projectType").click(function(){
+    	proccessType();
+	});
+	
+	proccessType();
 	
 });
+
+function proccessType() {
+		var val = $('input:radio[name="type"]:checked').val();
+        if(val == null){
+            return false;
+       	}
+        else{
+			if(val == 1) {
+				$(".noshell").show();
+			}
+			else {
+				$(".noshell").hide();
+			}
+        }
+}
 </script>
 
 </head>
@@ -55,8 +70,8 @@ $().ready(function() {
 
                 	<li class="clearfix">
                 		<label for="type" class="tit">类型：<span class=" red">*</span></label>
-               			<input type="radio" name="type" value="1" <#if info.type == 1> checked="checked" </#if> />工程项目
-                		<input type="radio" name="type" value="0" <#if info.type == 0> checked="checked" </#if> />脚本项目
+               			<input class="projectType" type="radio" name="type" value="1" <#if info.type == 1> checked="checked" </#if> />工程项目
+                		<input class="projectType" type="radio" name="type" value="0" <#if info.type == 0> checked="checked" </#if> />脚本项目
                 	</li>
                 	
                 	<li class="clearfix">
@@ -83,31 +98,31 @@ $().ready(function() {
                 	</li>
                 	
                 	<li class="clearfix">
-                		<label for="version require" class="tit">当前版本：<span class=" red">*</span></label>
-                		<input class="c_input_text required" type="text" style="width:200px;" name="version" value="${(info.version)!}" realValue="请输入名称" maxlength="200" />
+                		<label for="version " class="tit">当前版本：<span class=" red">*</span></label>
+                		<input class="c_input_text required" type="text" style="width:200px;" name="version" value="${(info.version)!}" realValue="请输入当前版本" maxlength="200" />
                		</li>
                		
                 	<li class="clearfix noshell">
 	                    <label for="nexusUrl" class="tit">Nexus'地址：</label>
-	                    <input class="c_input_text" type="text" style="width:200px;" name="nexusUrl" value="${(info.nexusUrl)!}" realValue="请输入名称" maxlength="200" />
+	                    <input class="c_input_text" type="text" style="width:200px;" name="nexusUrl" value="${(info.nexusUrl)!}" realValue="请输入Nexus'地址" maxlength="200" />
                 	</li>
                 	<li class="clearfix noshell">
 	                    <label for="nexusGroup" class="tit">Nexus'GROUP：</label>
-	                    <input class="c_input_text" type="text" style="width:200px;" name="nexusGroup" value="${(info.nexusGroup)!}" realValue="请输入名称" maxlength="200" />
+	                    <input class="c_input_text" type="text" style="width:200px;" name="nexusGroup" value="${(info.nexusGroup)!}" realValue="请输入Nexus'GROUP" maxlength="200" />
                 	</li>
             
                 	<li class="clearfix noshell">
 	                    <label for="nexusArtifact" class="tit">Nexus'ARTIFACT：</label>
-	                    <input class="c_input_text" type="text" style="width:200px;" name="nexusArtifact" value="${(info.nexusArtifact)!}" realValue="请输入名称" maxlength="200" />
+	                    <input class="c_input_text" type="text" style="width:200px;" name="nexusArtifact" value="${(info.nexusArtifact)!}" realValue="请输入Nexus'ARTIFACT" maxlength="200" />
                 	</li>
                 	
                 	<li class="clearfix">
 	                    <label for="releaseUser" class="tit">部署用户：</label>
-	                    <input class="c_input_text required" type="text" style="width:200px;" name="releaseUser" value="${(info.releaseUser)!}" realValue="请输入名称" maxlength="200" />
+	                    <input class="c_input_text required" type="text" style="width:200px;" name="releaseUser" value="${(info.releaseUser)!}" realValue="请输入部署用户" maxlength="200" />
                 	</li>
                 	<li class="clearfix">
 	                    <label for="releaseTo" class="tit">部署目录：</label>
-	                    <input class="c_input_text required" type="text" style="width:200px;" name="releaseTo" value="${(info.releaseTo)!}" realValue="请输入名称" maxlength="200" />
+	                    <input class="c_input_text required" type="text" style="width:200px;" name="releaseTo" value="${(info.releaseTo)!}" realValue="请输入部署目录" maxlength="200" />
                 	</li>
                 	
                 	<li class="clearfix">
