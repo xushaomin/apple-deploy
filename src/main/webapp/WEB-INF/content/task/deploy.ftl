@@ -4,25 +4,8 @@
 <meta charset="utf-8">
 <title>集群管理</title>
 
-<link rel="stylesheet" type="text/css" href="/css/common.css" />
-<link rel="stylesheet" type="text/css" href="/css/style.css" />
-
-<script type="text/javascript" src="/js/jquery-1.8.3.min.js"></script>
-<script type="text/javascript" src="/js/jquery.pager.js"></script>
-<script type="text/javascript" src="/js/jquery.validate.js"></script>
-<script type="text/javascript" src="/js/jquery.tools.js"></script>
-
-
-<script type="text/javascript" src="/js/common.js"></script>
-<script type="text/javascript" src="/js/list.js"></script>
-<script type="text/javascript" src="/js/input.js"></script>
-<script type="text/javascript" src="/js/admin.js"></script>
-
-<script type="text/javascript" src="/js/prompt.js"></script>
-<script type="text/javascript" src="/js/artDialog/artDialog.source.js?skin=glsx"></script>
-<script type="text/javascript" src="/js/artDialog/plugins/iframeTools.source.js"></script>
-<script type="text/javascript" src="/js/pop.js"></script>
-<script language="javascript" type="text/javascript" src="/js/My97DatePicker/WdatePicker.js"></script>
+<#include "/content/commons/page_css.ftl" />
+<#include "/content/commons/page_js.ftl" />
 
 <script type="text/javascript"> 
             if (!window.WebSocket) {

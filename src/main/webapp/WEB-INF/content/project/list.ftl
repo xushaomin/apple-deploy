@@ -59,17 +59,21 @@
                     </span>
                     <span class="group"><label>部署环境：</label>
                  		<select class="c_select" name="env" style="width:150px;" id="env">
-							<option value="">选择部署环境</option>
-							<#list envTypeList as env>
-							<option value="${env.getIndex()}"<#if (so.env?? && env.getIndex() == so.env)> selected="selected"</#if>>
-								${env.getName()}
-							</option>
-							</#list>
-						</select>
+                      <option value="">选择部署环境</option>
+                      <#list envTypeList as env>
+                      <option value="${env.getIndex()}"<#if (so.env?? && env.getIndex() == so.env)> selected="selected"</#if>>
+                        ${env.getName()}
+                      </option>
+                      </#list>
+                    </select>
                     </span>
-            		<span class="group"><a id="searchButton" href="javascript:;" class="btn_search">搜索</a></span>
+                    <span class="group"><a id="searchButton" href="javascript:;" class="btn_search">搜索</a></span>
                 </p>
             </div>
+            <div class="con_search_btn right">
+                <a class="btnA" href="javascript:;" onclick="openAddFrame('添加');">添加</a>
+            </div>
+
         </div>
         <!-- end of con_search_top -->
         

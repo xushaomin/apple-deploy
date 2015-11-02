@@ -64,10 +64,10 @@ function proccessType() {
             
                 	<li class="clearfix">
                 		<label for="name require" class="tit">名称：<span class=" red">*</span></label>
-                		<input class="c_input_text required" type="text" style="width:200px;" name="name" value="" realValue="请输入名称" maxlength="200" />
+                		<input class="c_input_text required" type="text" style="width:200px;" name="name" value="" realValue="请输入名称"  />
                		</li>
 
-                	<li class="clearfix">
+                	<li class="clearfix projectType">
                 		<label for="type" class="tit">类型：<span class=" red">*</span></label>
                			<input id="type" type="radio" name="type" value="1" checked="checked" />工程项目
                 		<input id="type" type="radio" name="type" value="0" />脚本项目
@@ -98,54 +98,54 @@ function proccessType() {
                 	
                 	<li class="clearfix">
                 		<label for="version " class="tit">当前版本：<span class=" red">*</span></label>
-                		<input class="c_input_text required" type="text" style="width:200px;" name="version" value="" realValue="请输入当前版本" maxlength="200" />
+                		<input class="c_input_text required" type="text" style="width:200px;" name="version" value="" realValue="请输入当前版本"  />
                		</li>
                		
                 	<li class="clearfix noshell">
 	                    <label for="nexusUrl" class="tit">Nexus'地址：</label>
-	                    <input class="c_input_text" type="text" style="width:200px;" name="nexusUrl" value="" realValue="请输入Nexus'地址" maxlength="200" />
+	                    <input class="c_input_text" type="text" style="width:200px;" name="nexusUrl" value="" realValue="请输入Nexus'地址"  />
                 	</li>
                 	<li class="clearfix noshell">
 	                    <label for="nexusGroup" class="tit">Nexus'GROUP：</label>
-	                    <input class="c_input_text" type="text" style="width:200px;" name="nexusGroup" value="" realValue="请输入Nexus'GROUP" maxlength="200" />
+	                    <input class="c_input_text" type="text" style="width:200px;" name="nexusGroup" value="" realValue="请输入Nexus'GROUP"  />
                 	</li>
             
                 	<li class="clearfix noshell">
 	                    <label for="nexusArtifact" class="tit">Nexus'ARTIFACT：</label>
-	                    <input class="c_input_text" type="text" style="width:200px;" name="nexusArtifact" value="" realValue="请输入Nexus'ARTIFACT" maxlength="200" />
+	                    <input class="c_input_text" type="text" style="width:200px;" name="nexusArtifact" value="" realValue="请输入Nexus'ARTIFACT"  />
                 	</li>
                 	
                 	<li class="clearfix">
 	                    <label for="releaseUser" class="tit">部署用户：</label>
-	                    <input class="c_input_text required" type="text" style="width:200px;" name="releaseUser" value="" realValue="请输入部署用户" maxlength="200" />
+	                    <input class="c_input_text required" type="text" style="width:200px;" name="releaseUser" value="" realValue="请输入部署用户"  />
                 	</li>
                 	<li class="clearfix">
 	                    <label for="releaseTo" class="tit">部署目录：</label>
-	                    <input class="c_input_text required" type="text" style="width:200px;" name="releaseTo" value="" realValue="请输入部署目录" maxlength="200" />
+	                    <input class="c_input_text required" type="text" style="width:200px;" name="releaseTo" value="" realValue="请输入部署目录"  />
                 	</li>
                 	
                 	<li class="clearfix">
 	                    <label for="hosts" class="tit">服务器列表：</label>
 	                    <span class="textarea_show">
-	                    	<textarea class="c_textarea" name="hosts" cols="" id="hosts" rows="" maxlength="100"></textarea>
+	                    	<textarea class="c_textarea" name="hosts" cols="" id="hosts" rows=""></textarea>
 	                    </span>
                 	</li>
                 	<li class="clearfix">
 	                    <label for="preDeploy" class="tit">部署前置任务：</label>
 	                    <span class="textarea_show">
-	                    	<textarea class="c_textarea" name="preDeploy" cols="" id="preDeploy" rows="" maxlength="100"></textarea>
+	                    	<textarea class="c_textarea" name="preDeploy" cols="" id="preDeploy" rows=""></textarea>
 	                    </span>
                 	</li>
                 	<li class="clearfix">
 	                    <label for="postDeploy" class="tit">部署任务：</label>
 	                    <span class="textarea_show">
-	                    	<textarea class="c_textarea" name="postDeploy" cols="" id="postDeploy" rows="" maxlength="100"></textarea>
+	                    	<textarea class="c_textarea" name="postDeploy" cols="" id="postDeploy" rows=""></textarea>
 	                    </span>
                 	</li>
                 	<li class="clearfix">
 	                    <label for="afterDeploy" class="tit">部署后置任务：</label>
 	                    <span class="textarea_show">
-	                    	<textarea class="c_textarea" name="afterDeploy" cols="" id="afterDeploy" rows="" maxlength="100"></textarea>
+	                    	<textarea class="c_textarea" name="afterDeploy" cols="" id="afterDeploy" rows=""></textarea>
 	                    </span>
                 	</li>
             </ul>

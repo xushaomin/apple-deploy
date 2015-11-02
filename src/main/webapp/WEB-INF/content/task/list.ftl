@@ -2,11 +2,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta charset="utf-8">
-<title>集群管理</title>
+<title>任务管理</title>
 
 <#include "../commons/page_css.ftl" />
 <#include "../commons/page_js.ftl" />
-<script language="javascript" type="text/javascript" src="/js/My97DatePicker/WdatePicker.js"></script>
 
 <script type="text/javascript">
 	function callback() {
@@ -52,15 +51,28 @@
         	<div class="con_search_top_L left">
                 <p>
                     <span class="group"><label>关键字：</label>
-                    	<input name="keyword" class="c_input_text" type="text" realValue="关键字" value="${(se.keyword)!''}" />
+                    	<input name="title" class="c_input_text" type="text" realValue="关键字" value="${(so.title)!''}" />
+                    </span>
+                    <span class="group"><label>所属项目：</label>
+                 		<select class="c_select" name="projectId" style="width:150px;" id="env">
+	                      <option value="">选择项目</option>
+	                      <#list projectList as project>
+	                      <option value="${project.id}"<#if (so.projectId?? && project.id == so.projectId)> selected="selected"</#if>>
+	                        ${project.name}
+	                      </option>
+	                      </#list>
+	                    </select>
                     </span>
             		<span class="group"><a id="searchButton" href="javascript:;" class="btn_search">搜索</a></span>
                 </p>
             </div>
+            <div class="con_search_btn right">
+                <a class="btnA" href="javascript:;" onclick="openAddFrame('添加');">添加</a>
+            </div>
         </div>
         <!-- end of con_search_top -->
         
-        <span class="con_box_BR"></span>
+		<span class="con_box_BR"></span>
     </div>
     <!-- end of con_search -->
     
@@ -71,7 +83,7 @@
     <table id="listTable" class="table_list list">
         <tr>
         	<th width="5%">序号</th>
-        	<th width="10%">任务名称</th>
+        	<th width="10%">任务标题</th>
         	<th width="12%">所属项目</th>
         	<th width="8%">类型</th>
         	<th width="8%">状态</th>
@@ -98,7 +110,7 @@
 				<a class="btn_icon btn_edit"   href="javascript:;" operatId="${info.id}" title="编辑"></a>
                 <a class="btn_icon btn_detail" href="javascript:;" operatId="${info.id}" title="详情"></a>
            		<a class="btn_icon btn_delete" href="javascript:;" operatId="${info.id}" title="删除"></a>
-                <a class="btn_icon btn_online" href="javascript:;" operatId="${info.id}" title="查看应用"></a>
+                <a class="btn_icon btn_online" href="javascript:;" operatId="${info.id}" title="部署任务"></a>
 			</td>
         </tr>
         </#list>

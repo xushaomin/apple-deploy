@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta charset="utf-8">
-<title>编辑任务</title>
+<title>新增任务</title>
 <#include "/content/commons/page_css.ftl" />
 <#include "/content/commons/page_js.ftl" />
 
@@ -33,9 +33,9 @@ $().ready(function() {
 </head>
 
 <body>
-<form id="inputForm" method="post" action="update">
-	<input type="hidden" name="id" value="${info.id}" />
-	<input type="hidden" name="disorder" value="0" />
+<form id="inputForm" method="post" action="save">
+	<input type="hidden" name="action" value="1" />
+	<input type="hidden" name="status" value="1" />
 	
     <div id="auditTab" class="pop_main" style="width:600px;border: 0px solid;">
 
@@ -49,32 +49,14 @@ $().ready(function() {
 
                 	<li class="clearfix">
                 		<label for="projectId" class="tit">所属项目：<span class=" red">*</span></label>
-                		<select class="c_select" name="projectId" style="width:150px;" id="projectId">
+                		<select class="c_select required" name="projectId" style="width:150px;" id="projectId">
+                		<option value="">请选择项目</option>
                 		<#list projectList as project>
-							<option value="${project.id}" <#if (info.projectId?? && project.id == info.projectId)> selected="selected"</#if>>
-								${project.name}
-							</option>
+							<option value="${project.id}">${project.name}</option>
 						</#list>
 						</select>
                 	</li>
-                	
-                	<li class="clearfix">
-                		<label for="action" class="tit">类型：<span class=" red">*</span></label>
-               			<span>${actionTypeMap[info.action?string].getName()}</span>
-               			<input type="hidden" name="action" value="${(info.action)!}" />
-                	</li>
-                	
-                	<li class="clearfix">
-                		<label for="status" class="tit">当前状况：<span class=" red">*</span></label>
-               			<span>${statusTypeMap[info.status?string].getName()}</span>
-               			<input type="hidden" name="status" value="${(info.status)!}" />
-                	</li>
 
-					<li class="clearfix">
-                		<label for="exVersion" class="tit">上次版本：<span class=" red">*</span></label>
-                		<span>${(info.exVersion)!}</span>
-               			<input type="hidden" name="exVersion" value="${(info.exVersion)!}" />
-                	</li>
 					<li class="clearfix">
                 		<label for="version" class="tit">发布版本：<span class=" red">*</span></label>
                			<input class="c_input_text required" type="text" style="width:200px;" name="version" value="${(info.version)!}" realValue="请输入版本号" maxlength="200" />
