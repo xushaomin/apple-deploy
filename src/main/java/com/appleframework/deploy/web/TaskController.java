@@ -104,20 +104,6 @@ public class TaskController extends BaseController {
 		return viewModel + "/edit";
 	}
 	
-	@RequestMapping(value = "/copy", method = RequestMethod.GET)
-	public String copy(Model model, Integer id, HttpServletResponse response) throws Exception {
-		Task info = taskService.get(id);
-		List<Project> projectList = this.getProjectList();
-		model.addAttribute("actionTypeMap", this.getActionTypeMap());
-		model.addAttribute("actionTypeList", this.getActionTypeList());
-		model.addAttribute("statusTypeMap", this.getStatusTypeMap());
-		model.addAttribute("statusTypeList", this.getStatusTypeList());
-		model.addAttribute("projectList", projectList);
-		model.addAttribute("projectMap", this.getProjectMap(projectList));
-		model.addAttribute("info", info);
-		return viewModel + "/copy";
-	}
-	
 	@RequestMapping(value = "/view", method = RequestMethod.GET)
 	public String view(Model model, Integer id, HttpServletResponse response) throws Exception {
 		Task info = taskService.get(id);

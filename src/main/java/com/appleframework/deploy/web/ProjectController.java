@@ -85,6 +85,14 @@ public class ProjectController extends BaseController {
 		return viewModel + "/view";
 	}
 	
+	@RequestMapping(value = "/copy", method = RequestMethod.GET)
+	public String copy(Model model, Integer id, HttpServletResponse response) throws Exception {
+		ProjectWithBLOBs info = projectService.get(id);
+		model.addAttribute("info", info);
+		model.addAttribute("envTypeList", this.getEnvTypeList());
+		return viewModel + "/copy";
+	}
+	
 	@RequestMapping(value = "/update")
 	public String update(Model model, ProjectWithBLOBs project, HttpServletResponse response) {
 		try {
