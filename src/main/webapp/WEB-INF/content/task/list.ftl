@@ -71,29 +71,29 @@
     <table id="listTable" class="table_list list">
         <tr>
         	<th width="5%">序号</th>
-        	<th width="10%">集群名称</th>
-        	<th width="12%">集群描述</th>
-        	<th width="8%">应用个数</th>
-        	<th width="12%">集群状态</th>
-        	<th width="8%">最新发布时间</th>
-        	<th width="8%">创建时间</th>
+        	<th width="10%">任务名称</th>
+        	<th width="12%">所属项目</th>
+        	<th width="8%">类型</th>
+        	<th width="8%">状态</th>
+        	<th width="12%">上线版本号</th>
+        	<th width="8%">上次上线版本号</th>
+        	<th width="8%">更新时间</th>
 			<th width="10%">操作</th>
         </tr>
         <#list page.list as info>
         <tr class="even">
         	<td><!--<input type="checkbox" name="ids" value="${info.id}" />-->${info.id}</td>
-        	<td style="text-align:left;">${(info.id)!}</td>
-			<td>${(info.id)!}</td>
-			<td>${(info.id)!}</td>
-			<td>
-			
-			</td>
+        	<td style="text-align:left;">${(info.title)!}</td>
+			<td>${(info.projectName)!}</td>
+			<td>${actionTypeMap[info.action?string].getName()}</td>
+			<td>${statusTypeMap[info.status?string].getName()}</td>
+			<td>${(info.version)!}</td>
+			<td>${(info.exVersion)!}</td>
 			<td>
 				<#if info.updateAt?exists>
 				${info.updateAt?string('yyyy-MM-dd')}
 				<#else>-</#if>
 			</td>
-			<td>${info.createAt?string('yyyy-MM-dd')}</td>
 			<td>
 				<a class="btn_icon btn_edit"   href="javascript:;" operatId="${info.id}" title="编辑"></a>
                 <a class="btn_icon btn_detail" href="javascript:;" operatId="${info.id}" title="详情"></a>
