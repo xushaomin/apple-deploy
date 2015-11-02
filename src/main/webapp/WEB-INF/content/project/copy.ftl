@@ -55,7 +55,7 @@ function proccessType() {
 </head>
 
 <body>
-<form id="inputForm" method="post" action="add">
+<form id="inputForm" method="post" action="save">
 	
     <div id="auditTab" class="pop_main" style="width:600px;border: 0px solid;">
 
