@@ -86,7 +86,7 @@ public class DeployServiceImpl implements DeployService {
 				JSch jsch = new JSch();
 				session = jsch.getSession(project.getReleaseUser(), host, 22);
 				java.util.Properties config = new java.util.Properties();
-				config.put("StrictHostKeyChecking", "no");
+				config.put("StrictHostKeyChecking", "yes");
 				session.setConfig(config);
 				//session.setPassword("Jn+XSK!H");
 				//session.setPassword("123456");
