@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.appleframework.config.core.PropertyConfigurer;
 import com.appleframework.deploy.entity.Project;
 import com.appleframework.deploy.entity.Task;
 import com.appleframework.deploy.model.ActionType;
@@ -137,6 +138,7 @@ public class TaskController extends BaseController {
 				deployService.doDeploy(id);
 			}
 			model.addAttribute("taskId", id);
+			model.addAttribute("websocketUrl", PropertyConfigurer.getProperty("websocket.url"));
 		} catch (AppleException e) {
 			e.printStackTrace();
 		}
