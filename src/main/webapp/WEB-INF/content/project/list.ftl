@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta charset="utf-8">
-<title>应用管理</title>
+<title>项目管理</title>
 
 <#include "../commons/page_css.ftl" />
 <#include "../commons/page_js.ftl" />
@@ -55,7 +55,17 @@
         	<div class="con_search_top_L left">
                 <p>
                     <span class="group"><label>关键字：</label>
-                    	<input name="keyword" class="c_input_text" type="text" realValue="关键字" value="${(keyword)!''}" />
+                    	<input name="name" class="c_input_text" type="text" realValue="关键字" value="${(so.name)!''}" />
+                    </span>
+                    <span class="group"><label>部署环境：</label>
+                 		<select class="c_select" name="env" style="width:150px;" id="env">
+							<option value="">选择部署环境</option>
+							<#list envTypeList as env>
+							<option value="${env.getIndex()}"<#if (so.env?? && env.getIndex() == so.env)> selected="selected"</#if>>
+								${env.getName()}
+							</option>
+							</#list>
+						</select>
                     </span>
             		<span class="group"><a id="searchButton" href="javascript:;" class="btn_search">搜索</a></span>
                 </p>
@@ -74,10 +84,11 @@
         <tr>
         	<th width="5%">序号</th>
         	<th width="10%">项目</th>
+        	<th width="6%">类型</th>
         	<th width="12%">发布环境</th>
+        	<th width="8%">当前版本</th>
         	<th width="20%">安装目录</th>
         	<th width="10%">安装帐号</th>
-        	<th width="8%">当前版本</th>
         	<th width="8%">创建时间</th>
         	<th width="6%">审核状态</th>
         	<th width="6%">状态</th>
@@ -87,14 +98,11 @@
         <tr class="even">
         	<td><!--<input type="checkbox" name="ids" value="${info.id}" />-->${info.id}</td>
         	<td>${(info.name)!''}</td>
-        	<td>
-        		<#if info.level??>
-				${info.level}
-				<#else>-</#if>
-        	</td>
+        	<td><#if info.type==1>工程<#else>脚本</#if></td>
+        	<td>${envTypeMap[info.env?string]}</td>
+        	<td>${(info.version)!'-'}</td>
 			<td style="text-align:left;">${(info.releaseTo)!'-'}</td>
 			<td>${(info.releaseUser)!'-'}</td>
-			<td>${(info.version)!'-'}</td>
 			<td>
 				<#if info.createAd?exists>
 				${info.createAd?string('yyyy-MM-dd')}

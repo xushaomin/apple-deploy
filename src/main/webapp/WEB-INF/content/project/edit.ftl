@@ -2,9 +2,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta charset="utf-8">
-<title>编辑应用</title>
-<#include "../commons/page_css.ftl" />
-<#include "../commons/page_js.ftl" />
+<title>编辑项目</title>
+<#include "/content/commons/page_css.ftl" />
+<#include "/content/commons/page_js.ftl" />
 
 <script type="text/javascript">
 $().ready(function() {
@@ -16,7 +16,7 @@ $().ready(function() {
 		rules: {
 			"code": {
 				required: true,
-				remote: "check_code?oldCode=${(info.code)!}"
+				remote: "check_code?oldCode=${(info.name)!}"
 			}
 		},
 		messages: {
@@ -42,7 +42,6 @@ $().ready(function() {
 <body>
 <form id="inputForm" method="post" action="update">
 	<input type="hidden" name="id" value="${info.id}" />
-	<input type="hidden" name="disorder" value="${info.disorder}" />
 	
     <div id="auditTab" class="pop_main" style="width:600px;border: 0px solid;">
 
@@ -55,24 +54,84 @@ $().ready(function() {
                		</li>
 
                 	<li class="clearfix">
-                		<label for="code" class="tit">编码：<span class=" red">*</span></label>
-                		<input readonly class="c_input_text required" type="text" style="width:200px;" name="code" value="${info.code}" realValue="请输入编码" maxlength="200" />
+                		<label for="type" class="tit">类型：<span class=" red">*</span></label>
+               			<input type="radio" name="type" value="1" <#if info.type == 1> checked="checked" </#if> />工程项目
+                		<input type="radio" name="type" value="0" <#if info.type == 0> checked="checked" </#if> />脚本项目
+                	</li>
+                	
+                	<li class="clearfix">
+                		<label for="type" class="tit">状态：<span class=" red">*</span></label>
+               			<input type="radio" name="status" value="1" <#if info.status == 1> checked="checked" </#if> />启用
+                		<input type="radio" name="status" value="0" <#if info.status == 0> checked="checked" </#if> />停用
+                	</li>
+                	
+                	<li class="clearfix">
+                		<label for="type" class="tit">审核：<span class=" red">*</span></label>
+               			<input type="radio" name="isAudit" value="1" <#if info.status == 1> checked="checked" </#if> />是
+                		<input type="radio" name="isAudit" value="0" <#if info.status == 0> checked="checked" </#if> />否
                 	</li>
 
-                	
-
 					<li class="clearfix">
-                		<label for="platform" class="tit">状态：<span class=" red">*</span></label>
-               			<input type="radio" name="state" value="1" <#if info.state == 1> checked="checked" </#if> />启用
-                		<input type="radio" name="state" value="0" <#if info.state == 0> checked="checked" </#if> />停用
-                	</li>            
-            
+                		<label for="env" class="tit">部署环境：<span class=" red">*</span></label>
+                		<select class="c_select" name="env" style="width:150px;" id="env">
+                		<#list envTypeList as env>
+							<option value="${env.getIndex()}" <#if (info.env?? && env.getIndex() == info.env)> selected="selected"</#if>>
+								${env.getName()}
+							</option>
+						</#list>
+						</select>
+                	</li>
+                	
                 	<li class="clearfix">
-	                    <label for="remark" class="tit">描述：</label>
+                		<label for="version require" class="tit">当前版本：<span class=" red">*</span></label>
+                		<input class="c_input_text required" type="text" style="width:200px;" name="version" value="${(info.version)!}" realValue="请输入名称" maxlength="200" />
+               		</li>
+               		
+                	<li class="clearfix noshell">
+	                    <label for="nexusUrl" class="tit">Nexus'地址：</label>
+	                    <input class="c_input_text" type="text" style="width:200px;" name="nexusUrl" value="${(info.nexusUrl)!}" realValue="请输入名称" maxlength="200" />
+                	</li>
+                	<li class="clearfix noshell">
+	                    <label for="nexusGroup" class="tit">Nexus'GROUP：</label>
+	                    <input class="c_input_text" type="text" style="width:200px;" name="nexusGroup" value="${(info.nexusGroup)!}" realValue="请输入名称" maxlength="200" />
+                	</li>
+            
+                	<li class="clearfix noshell">
+	                    <label for="nexusArtifact" class="tit">Nexus'ARTIFACT：</label>
+	                    <input class="c_input_text" type="text" style="width:200px;" name="nexusArtifact" value="${(info.nexusArtifact)!}" realValue="请输入名称" maxlength="200" />
+                	</li>
+                	
+                	<li class="clearfix">
+	                    <label for="releaseUser" class="tit">部署用户：</label>
+	                    <input class="c_input_text required" type="text" style="width:200px;" name="releaseUser" value="${(info.releaseUser)!}" realValue="请输入名称" maxlength="200" />
+                	</li>
+                	<li class="clearfix">
+	                    <label for="releaseTo" class="tit">部署目录：</label>
+	                    <input class="c_input_text required" type="text" style="width:200px;" name="releaseTo" value="${(info.releaseTo)!}" realValue="请输入名称" maxlength="200" />
+                	</li>
+                	
+                	<li class="clearfix">
+	                    <label for="hosts" class="tit">服务器列表：</label>
 	                    <span class="textarea_show">
-	                    	<textarea class="c_textarea wordCount" name="remark" cols="" id="remark" rows="" maxlength="100" showCount="remarkLen">${(info.remark)!}</textarea>
-	                    	<span class="in_num_text" style="color:red;" id="remarkLen">0/100</span>
-	                    	<span class="in_num_text" >/100</span>
+	                    	<textarea class="c_textarea" name="hosts" cols="" id="hosts" rows="" maxlength="100">${(info.hosts)!}</textarea>
+	                    </span>
+                	</li>
+                	<li class="clearfix">
+	                    <label for="preDeploy" class="tit">部署前置任务：</label>
+	                    <span class="textarea_show">
+	                    	<textarea class="c_textarea" name="preDeploy" cols="" id="preDeploy" rows="" maxlength="100">${(info.preDeploy)!}</textarea>
+	                    </span>
+                	</li>
+                	<li class="clearfix">
+	                    <label for="postDeploy" class="tit">部署任务：</label>
+	                    <span class="textarea_show">
+	                    	<textarea class="c_textarea" name="postDeploy" cols="" id="postDeploy" rows="" maxlength="100">${(info.postDeploy)!}</textarea>
+	                    </span>
+                	</li>
+                	<li class="clearfix">
+	                    <label for="afterDeploy" class="tit">部署后置任务：</label>
+	                    <span class="textarea_show">
+	                    	<textarea class="c_textarea" name="afterDeploy" cols="" id="afterDeploy" rows="" maxlength="100">${(info.afterDeploy)!}</textarea>
 	                    </span>
                 	</li>
             </ul>
