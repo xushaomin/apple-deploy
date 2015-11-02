@@ -1,0 +1,66 @@
+#!/bin/bash
+INSTALL_PATH=$1
+NEXUS_URL=$2
+GROUP_ID=$3
+ARTIFACT_ID=$4
+VERSION=$5
+
+if [ -z "$INSTALL_PATH" ]; then
+    echo "ERROR: THE PROJECT'S INSTALL PATH MUST TO INPUT!"
+    echo "ERROR: THE PROJECT'S DEPLOY EXIT!"
+    exit 1
+fi
+
+if [ -z "$VERSION" ]; then
+    echo "ERROR: THE PROJECT'S VERSION MUST TO INPUT!"
+    echo "ERROR: THE PROJECT'S DEPLOY EXIT!"
+    exit 1
+fi
+
+echo "INFO : THE PROJECT'S INSTALL PATH IS: $INSTALL_PATH"
+
+cd $INSTALL_PATH
+
+
+if [ -z "$NEXUS_URL" ]; then
+    echo "ERROR: THE PROJECT'S NEXUS_URL MUST BE NOT NULL!"
+    echo "ERROR: THE PROJECT'S DEPLOY EXIT!"
+    exit 1
+fi
+if [ -z "$GROUP_ID" ]; then
+    echo "ERROR: THE PROJECT'S GROUP_ID MUST BE NOT NULL!"
+    echo "ERROR: THE PROJECT'S DEPLOY EXIT!"
+    exit 1
+fi
+if [ -z "$ARTIFACT_ID" ]; then
+    echo "ERROR: THE PROJECT'S ARTIFACT_ID MUST BE NOT NULL!"
+    echo "ERROR: THE PROJECT'S DEPLOY EXIT!"
+    exit 1
+fi
+
+FILE_PATH=${INSTALL_PATH}"/"${ARTIFACT_ID}"-"${VERSION}
+FILE_NAME=${ARTIFACT_ID}"-"${VERSION}"-assembly.tar.gz"
+WORK_PATH=${INSTALL_PATH}"/work"
+
+rm -rf $FILE_NAME
+rm -rf $FILE_PATH
+rm -rf $WORK_PATH
+
+DOWNLOAD_URL=${NEXUS_URL}"/service/local/repositories/releases/content/"${GROUP_ID//.//}"/"${ARTIFACT_ID}"/"${VERSION}"/"${FILE_NAME}
+
+echo "INFO : THE PROJECT'S NEXUS_URL IS : $NEXUS_URL"
+echo "INFO : THE PROJECT'S GROUP_ID IS : $GROUP_ID"
+echo "INFO : THE PROJECT'S ARTIFACT_ID IS : $ARTIFACT_ID"
+echo "INFO : THE PROJECT'S VERSION IS : $VERSION"
+echo "INFO : THE PROJECT'S DOWNLOAD_URL IS : $DOWNLOAD_URL"
+
+wget -c $DOWNLOAD_URL
+tar -zxvf $FILE_NAME
+mv $FILE_PATH $WORK_PATH
+
+BIN_PATH=$WORK_PATH"/bin"
+echo "INFO : THE PROJECT'S BIN_PATH IS : $BIN_PATH"
+
+cd $BIN_PATH
+
+./restart.sh release jmx
