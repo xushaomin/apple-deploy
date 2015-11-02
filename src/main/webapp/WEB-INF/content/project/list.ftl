@@ -17,23 +17,14 @@
 			var id = $(this).attr("operatId");
 			var title = $(this).attr("title");
 			
-			art.dialog.open('/jmx_log4j/view?id=' + id, {
+			art.dialog.open('copy?id=' + id, {
 				id: 'viewFrame',
 				title: title,
 				close: function () {}
 			}, false);
 		});
 		
-		$("#listTable .btn_effect").bind("click", function(){
-			var id = $(this).attr("operatId");
-			var title = $(this).attr("title");
-			
-			art.dialog.open('/jmx_log4j/edit?id=' + id, {
-				id: 'viewFrame',
-				title: title,
-				close: function () {}
-			}, false);
-		});
+		
 	});
 </script>
 
@@ -118,6 +109,7 @@
 				<a class="btn_icon btn_edit"   href="javascript:;" operatId="${info.id}" title="编辑"></a>
                 <a class="btn_icon btn_detail" href="javascript:;" operatId="${info.id}" title="详情"></a>
                 <a class="btn_icon btn_delete" href="javascript:;" operatId="${info.id}" title="删除"></a>
+                <a class="btn_icon btn_examine" href="javascript:;" operatId="${info.id}" title="拷贝"></a>
 			</td>
         </tr>
         </#list>
