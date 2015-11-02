@@ -4,9 +4,9 @@
   <resultMap id="BaseResultMap" type="com.appleframework.deploy.entity.Project" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="status" property="status" jdbcType="INTEGER" />
-    <result column="env" property="env" jdbcType="INTEGER" />
     <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="env" property="env" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
     <result column="version" property="version" jdbcType="VARCHAR" />
     <result column="nexus_url" property="nexusUrl" jdbcType="VARCHAR" />
     <result column="nexus_group" property="nexusGroup" jdbcType="VARCHAR" />
@@ -26,7 +26,7 @@
     <result column="after_deploy" property="afterDeploy" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, status, type, env, version, nexus_url, nexus_group, nexus_artifact, release_user, 
+    id, name, type, env, status, version, nexus_url, nexus_group, nexus_artifact, release_user, 
     release_to, is_audit, create_at, update_at, create_by, update_by
   </sql>
   <sql id="Blob_Column_List" >
@@ -51,7 +51,7 @@
     select 
     <include refid="Base_Column_List" />
     from dep_project
-	
+	order by id asc 
   </select>
 
 </mapper>

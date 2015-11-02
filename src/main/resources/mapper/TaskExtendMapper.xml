@@ -6,7 +6,6 @@
     <result column="project_id" property="projectId" jdbcType="INTEGER" />
     <result column="project_name" property="projectName" jdbcType="VARCHAR" />
     <result column="title" property="title" jdbcType="VARCHAR" />
-    <result column="env" property="env" jdbcType="INTEGER" />
     <result column="action" property="action" jdbcType="INTEGER" />
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="version" property="version" jdbcType="VARCHAR" />
@@ -17,7 +16,7 @@
     <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, project_id, title, env, action, status, version, ex_version, create_at, update_at, 
+    id, project_id, project_name, title, action, status, version, ex_version, create_at, update_at, 
     create_by, update_by
   </sql>
   <select id="selectByPage" resultMap="BaseResultMap">
@@ -26,14 +25,13 @@
     from dep_task
     where 1=1
     
-    <if test="keyword != null" >
-        and name like '%${keyword}%'
+    <if test="so.title != null" >
+        and title like '%${so.title}%'
 	</if>
 	
-	<if test="projectId != null" >
-        and projectId = ${projectId}
+	<if test="so.projectId != null" >
+        and project_id = ${so.projectId}
 	</if>
-	
 	order by id desc
   </select>
 

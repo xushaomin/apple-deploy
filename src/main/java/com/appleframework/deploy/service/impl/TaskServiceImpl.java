@@ -1,5 +1,7 @@
 package com.appleframework.deploy.service.impl;
 
+import java.util.Date;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -7,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.appleframework.deploy.dao.TaskMapper;
 import com.appleframework.deploy.dao.extend.TaskExtendMapper;
 import com.appleframework.deploy.entity.Task;
+import com.appleframework.deploy.model.TaskSo;
 import com.appleframework.deploy.service.TaskService;
 import com.appleframework.exception.AppleException;
 import com.appleframework.model.page.Pagination;
@@ -22,12 +25,14 @@ public class TaskServiceImpl implements TaskService {
 
 	@Override
 	public Integer save(Task record) throws AppleException {
+		record.setCreateAt(new Date());
 		taskMapper.insert(record);
 		return record.getId();
 	}
 
 	@Override
 	public Integer update(Task record) throws AppleException {
+		record.setUpdateAt(new Date());
 		taskMapper.updateByPrimaryKey(record);
 		return null;
 	}
@@ -44,8 +49,8 @@ public class TaskServiceImpl implements TaskService {
 	}
 	
 	@Override
-	public Pagination findPage(Pagination page, Integer projectId, String keyword) {
-		page.setList(taskExtendMapper.selectByPage(page, projectId, keyword));
+	public Pagination findPage(Pagination page, TaskSo so) {
+		page.setList(taskExtendMapper.selectByPage(page, so));
 		return page;
 	}
 	

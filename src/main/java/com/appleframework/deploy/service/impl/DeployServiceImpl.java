@@ -14,6 +14,7 @@ import com.appleframework.config.core.util.StringUtils;
 import com.appleframework.deploy.entity.ProjectWithBLOBs;
 import com.appleframework.deploy.entity.Task;
 import com.appleframework.deploy.model.DeployType;
+import com.appleframework.deploy.model.StatusType;
 import com.appleframework.deploy.service.DeployService;
 import com.appleframework.deploy.service.ProjectService;
 import com.appleframework.deploy.service.TaskService;
@@ -57,6 +58,8 @@ public class DeployServiceImpl implements DeployService {
 	private void doDeployTask(Integer taskId) throws AppleException {
 		Constants.BOOT_STATUS_MAP.put(taskId, false);
 		Task task = taskService.get(taskId);
+		task.setStatus(StatusType.DEPLOYING.getIndex());
+		taskService.update(task);
 		ProjectWithBLOBs project = projectService.get(task.getProjectId());
 		
 		String hostStr = project.getHosts();
@@ -76,7 +79,6 @@ public class DeployServiceImpl implements DeployService {
 				commandBuffer.append(project.getNexusArtifact() + " ");
 				commandBuffer.append(project.getVersion() + " ");
 			}
-			
 			
 			Session session = null;
 			ChannelExec openChannel = null;
@@ -140,9 +142,19 @@ public class DeployServiceImpl implements DeployService {
 				}
 			}
 			
+			/*if(isSuccess) {
+				
+			}*/
+			
 		}
 		Constants.BOOT_STATUS_MAP.put(taskId, true);
 		WebSocketServer.sendMessage(taskId, "已经完成所有部署!!!");
+		
+		task.setStatus(StatusType.SUCCESS.getIndex());
+		taskService.update(task);
+		
+		project.setVersion(task.getVersion());
+		projectService.update(project);
 	}
 	
 

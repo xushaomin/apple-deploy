@@ -1,5 +1,6 @@
 package com.appleframework.deploy.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -33,6 +34,7 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	public Integer update(ProjectWithBLOBs record) throws AppleException {
+		record.setUpdateAt(new Date());
 		projectMapper.updateByPrimaryKeyWithBLOBs(record);
 		return null;
 	}

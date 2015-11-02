@@ -47,26 +47,28 @@ public class ProjectController extends BaseController {
 	
 	@RequestMapping(value = "/get")
 	public @ResponseBody Project get(Model model, Integer id, HttpServletRequest request) {
+		model.addAttribute("envTypeList", this.getEnvTypeList());
 		Project info = projectService.get(id);
 		return info;
 	}
 	
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public String add(Model model, HttpServletResponse response) throws Exception {
+		model.addAttribute("envTypeList", this.getEnvTypeList());
 		return viewModel +"/add";
 	}
 	
-	/*@RequestMapping(value = "/save")
-	public String save(Model model, Project project, HttpServletRequest request) {
+	@RequestMapping(value = "/save")
+	public String save(Model model, ProjectWithBLOBs project, HttpServletRequest request) {
 		try {
-			projectService.insert(project);
-		} catch (ServiceException e) {
+			projectService.save(project);
+		} catch (Exception e) {
 			addErrorMessage(model, e.getMessage());
-			return ERROR_VIEW;
+			return ERROR_AJAX;
 		}
-		addSuccessMessage(model, "添加应用成功", "list");
-		return SUCCESS_VIEW;
-	}*/
+		addSuccessMessage(model, "添加项目成功");
+		return SUCCESS_AJAX;
+	}
 	
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public String edit(Model model, Integer id, HttpServletResponse response) throws Exception {
@@ -93,22 +95,12 @@ public class ProjectController extends BaseController {
 			projectService.update(old);
 		} catch (AppleException e) {
 			addErrorMessage(model, e.getMessage());
-			return "/commons/error_ajax";
+			return ERROR_AJAX;
 		}
 		addSuccessMessage(model, "修改成功");
-		return "/commons/success_ajax";
+		return SUCCESS_AJAX;
 	}
-	
-	// AJAX唯一验证
-	@RequestMapping(value = "/check_name", method = RequestMethod.GET)
-	public @ResponseBody String checkRoleName(String oldName, String name) {
-		if (projectService.isUniqueByName(oldName, name)) {
-			return ajax("true");
-		} else {
-			return ajax("false");
-		}
-	}
-	
+		
 	public List<EnvType> getEnvTypeList() {
 		return Arrays.asList(EnvType.values());
 	}

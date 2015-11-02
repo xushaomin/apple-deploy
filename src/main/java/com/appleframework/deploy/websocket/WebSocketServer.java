@@ -88,10 +88,11 @@ public class WebSocketServer extends WebSocketServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		response.setContentType("text/plain");
+		response.setCharacterEncoding("utf-8");
 
 		// Content-Type header
-		/*response.setContentType("text/plain");
-		response.setCharacterEncoding("utf-8");
+		/*
 
 		// Access-Control-Allow-Origin header
 		response.setHeader("Access-Control-Allow-Origin", "*");

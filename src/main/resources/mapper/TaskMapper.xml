@@ -6,7 +6,6 @@
     <result column="project_id" property="projectId" jdbcType="INTEGER" />
     <result column="project_name" property="projectName" jdbcType="VARCHAR" />
     <result column="title" property="title" jdbcType="VARCHAR" />
-    <result column="env" property="env" jdbcType="INTEGER" />
     <result column="action" property="action" jdbcType="INTEGER" />
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="version" property="version" jdbcType="VARCHAR" />
@@ -17,7 +16,7 @@
     <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, project_id, project_name, title, env, action, status, version, ex_version, create_at, 
+    id, project_id, project_name, title, action, status, version, ex_version, create_at, 
     update_at, create_by, update_by
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
@@ -35,12 +34,12 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into dep_task (project_id, project_name, title, 
-      env, action, status, 
+      action, status, 
       version, ex_version, create_at, 
       update_at, create_by, update_by
       )
     values (#{projectId,jdbcType=INTEGER}, #{projectName,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
-      #{env,jdbcType=INTEGER}, #{action,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
+      #{action,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
       #{version,jdbcType=VARCHAR}, #{exVersion,jdbcType=VARCHAR}, #{createAt,jdbcType=TIMESTAMP}, 
       #{updateAt,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{updateBy,jdbcType=VARCHAR}
       )
@@ -59,9 +58,6 @@
       </if>
       <if test="title != null" >
         title,
-      </if>
-      <if test="env != null" >
-        env,
       </if>
       <if test="action != null" >
         action,
@@ -97,9 +93,6 @@
       </if>
       <if test="title != null" >
         #{title,jdbcType=VARCHAR},
-      </if>
-      <if test="env != null" >
-        #{env,jdbcType=INTEGER},
       </if>
       <if test="action != null" >
         #{action,jdbcType=INTEGER},
@@ -139,9 +132,6 @@
       <if test="title != null" >
         title = #{title,jdbcType=VARCHAR},
       </if>
-      <if test="env != null" >
-        env = #{env,jdbcType=INTEGER},
-      </if>
       <if test="action != null" >
         action = #{action,jdbcType=INTEGER},
       </if>
@@ -174,7 +164,6 @@
     set project_id = #{projectId,jdbcType=INTEGER},
       project_name = #{projectName,jdbcType=VARCHAR},
       title = #{title,jdbcType=VARCHAR},
-      env = #{env,jdbcType=INTEGER},
       action = #{action,jdbcType=INTEGER},
       status = #{status,jdbcType=INTEGER},
       version = #{version,jdbcType=VARCHAR},

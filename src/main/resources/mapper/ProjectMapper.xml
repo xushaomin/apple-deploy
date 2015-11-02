@@ -5,6 +5,7 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="env" property="env" jdbcType="INTEGER" />
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="version" property="version" jdbcType="VARCHAR" />
     <result column="nexus_url" property="nexusUrl" jdbcType="VARCHAR" />
@@ -22,15 +23,14 @@
     <result column="hosts" property="hosts" jdbcType="LONGVARCHAR" />
     <result column="pre_deploy" property="preDeploy" jdbcType="LONGVARCHAR" />
     <result column="post_deploy" property="postDeploy" jdbcType="LONGVARCHAR" />
-    <result column="pre_release" property="preRelease" jdbcType="LONGVARCHAR" />
-    <result column="post_release" property="postRelease" jdbcType="LONGVARCHAR" />
+    <result column="after_deploy" property="afterDeploy" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, type, status, version, nexus_url, nexus_group, nexus_artifact, release_user, 
+    id, name, type, env, status, version, nexus_url, nexus_group, nexus_artifact, release_user, 
     release_to, is_audit, create_at, update_at, create_by, update_by
   </sql>
   <sql id="Blob_Column_List" >
-    hosts, pre_deploy, post_deploy, pre_release, post_release
+    hosts, pre_deploy, post_deploy, after_deploy
   </sql>
   <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
     select 
@@ -48,20 +48,20 @@
     <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into dep_project (name, type, status, 
-      version, nexus_url, nexus_group, 
-      nexus_artifact, release_user, release_to, 
-      is_audit, create_at, update_at, 
-      create_by, update_by, hosts, 
-      pre_deploy, post_deploy, pre_release, 
-      post_release)
-    values (#{name,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
-      #{version,jdbcType=VARCHAR}, #{nexusUrl,jdbcType=VARCHAR}, #{nexusGroup,jdbcType=VARCHAR}, 
-      #{nexusArtifact,jdbcType=VARCHAR}, #{releaseUser,jdbcType=VARCHAR}, #{releaseTo,jdbcType=VARCHAR}, 
-      #{isAudit,jdbcType=BIT}, #{createAt,jdbcType=TIMESTAMP}, #{updateAt,jdbcType=TIMESTAMP}, 
-      #{createBy,jdbcType=VARCHAR}, #{updateBy,jdbcType=VARCHAR}, #{hosts,jdbcType=LONGVARCHAR}, 
-      #{preDeploy,jdbcType=LONGVARCHAR}, #{postDeploy,jdbcType=LONGVARCHAR}, #{preRelease,jdbcType=LONGVARCHAR}, 
-      #{postRelease,jdbcType=LONGVARCHAR})
+    insert into dep_project (name, type, env, 
+      status, version, nexus_url, 
+      nexus_group, nexus_artifact, release_user, 
+      release_to, is_audit, create_at, 
+      update_at, create_by, update_by, 
+      hosts, pre_deploy, post_deploy, 
+      after_deploy)
+    values (#{name,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{env,jdbcType=INTEGER}, 
+      #{status,jdbcType=INTEGER}, #{version,jdbcType=VARCHAR}, #{nexusUrl,jdbcType=VARCHAR}, 
+      #{nexusGroup,jdbcType=VARCHAR}, #{nexusArtifact,jdbcType=VARCHAR}, #{releaseUser,jdbcType=VARCHAR}, 
+      #{releaseTo,jdbcType=VARCHAR}, #{isAudit,jdbcType=BIT}, #{createAt,jdbcType=TIMESTAMP}, 
+      #{updateAt,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{updateBy,jdbcType=VARCHAR}, 
+      #{hosts,jdbcType=LONGVARCHAR}, #{preDeploy,jdbcType=LONGVARCHAR}, #{postDeploy,jdbcType=LONGVARCHAR}, 
+      #{afterDeploy,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.appleframework.deploy.entity.ProjectWithBLOBs" >
     <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
@@ -74,6 +74,9 @@
       </if>
       <if test="type != null" >
         type,
+      </if>
+      <if test="env != null" >
+        env,
       </if>
       <if test="status != null" >
         status,
@@ -120,11 +123,8 @@
       <if test="postDeploy != null" >
         post_deploy,
       </if>
-      <if test="preRelease != null" >
-        pre_release,
-      </if>
-      <if test="postRelease != null" >
-        post_release,
+      <if test="afterDeploy != null" >
+        after_deploy,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -133,6 +133,9 @@
       </if>
       <if test="type != null" >
         #{type,jdbcType=INTEGER},
+      </if>
+      <if test="env != null" >
+        #{env,jdbcType=INTEGER},
       </if>
       <if test="status != null" >
         #{status,jdbcType=INTEGER},
@@ -179,11 +182,8 @@
       <if test="postDeploy != null" >
         #{postDeploy,jdbcType=LONGVARCHAR},
       </if>
-      <if test="preRelease != null" >
-        #{preRelease,jdbcType=LONGVARCHAR},
-      </if>
-      <if test="postRelease != null" >
-        #{postRelease,jdbcType=LONGVARCHAR},
+      <if test="afterDeploy != null" >
+        #{afterDeploy,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
@@ -195,6 +195,9 @@
       </if>
       <if test="type != null" >
         type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="env != null" >
+        env = #{env,jdbcType=INTEGER},
       </if>
       <if test="status != null" >
         status = #{status,jdbcType=INTEGER},
@@ -241,11 +244,8 @@
       <if test="postDeploy != null" >
         post_deploy = #{postDeploy,jdbcType=LONGVARCHAR},
       </if>
-      <if test="preRelease != null" >
-        pre_release = #{preRelease,jdbcType=LONGVARCHAR},
-      </if>
-      <if test="postRelease != null" >
-        post_release = #{postRelease,jdbcType=LONGVARCHAR},
+      <if test="afterDeploy != null" >
+        after_deploy = #{afterDeploy,jdbcType=LONGVARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -254,6 +254,7 @@
     update dep_project
     set name = #{name,jdbcType=VARCHAR},
       type = #{type,jdbcType=INTEGER},
+      env = #{env,jdbcType=INTEGER},
       status = #{status,jdbcType=INTEGER},
       version = #{version,jdbcType=VARCHAR},
       nexus_url = #{nexusUrl,jdbcType=VARCHAR},
@@ -269,14 +270,14 @@
       hosts = #{hosts,jdbcType=LONGVARCHAR},
       pre_deploy = #{preDeploy,jdbcType=LONGVARCHAR},
       post_deploy = #{postDeploy,jdbcType=LONGVARCHAR},
-      pre_release = #{preRelease,jdbcType=LONGVARCHAR},
-      post_release = #{postRelease,jdbcType=LONGVARCHAR}
+      after_deploy = #{afterDeploy,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.appleframework.deploy.entity.Project" >
     update dep_project
     set name = #{name,jdbcType=VARCHAR},
       type = #{type,jdbcType=INTEGER},
+      env = #{env,jdbcType=INTEGER},
       status = #{status,jdbcType=INTEGER},
       version = #{version,jdbcType=VARCHAR},
       nexus_url = #{nexusUrl,jdbcType=VARCHAR},
