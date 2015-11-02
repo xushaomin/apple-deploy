@@ -89,7 +89,7 @@ public class DeployServiceImpl implements DeployService {
 				config.put("StrictHostKeyChecking", "no");
 				session.setConfig(config);
 				//session.setPassword("Jn+XSK!H");
-				session.setPassword("123456");
+				//session.setPassword("123456");
 				session.connect();
 				openChannel = (ChannelExec) session.openChannel("exec");
 				openChannel.setCommand(commandBuffer.toString());
