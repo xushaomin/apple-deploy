@@ -1,5 +1,7 @@
 package com.appleframework.deploy.service.impl;
 
+import java.util.Date;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -17,6 +19,7 @@ public class RecordServiceImpl implements RecordService {
 
 	@Override
 	public Long save(RecordWithBLOBs record) throws AppleException {
+		record.setCreateAt(new Date());
 		recordMapper.insert(record);
 		return record.getId();
 	}

@@ -66,12 +66,12 @@ public class DeployServiceImpl implements DeployService {
 		String hosts[] = hostStr.trim().split(",");
 		for (String host : hosts) {
 			StringBuffer commandBuffer = new StringBuffer();
-			
+			commandBuffer.append("mkdir -p " + project.getReleaseTo() + "\n");
+
+			if(!StringUtils.isEmpty(project.getPreDeploy())) {
+				commandBuffer.append(project.getPreDeploy() + "\n");
+			}
 			if (project.getType() == DeployType.NEXUS.getIndex()) {
-				if(!StringUtils.isEmpty(project.getPreDeploy())) {
-					commandBuffer.append(project.getPreDeploy() + "\n");
-				}
-				commandBuffer.append("mkdir -p " + project.getReleaseTo() + "\n");
 				commandBuffer.append(project.getPostDeploy() + " ");
 				commandBuffer.append(project.getReleaseTo() + " ");
 				commandBuffer.append(project.getNexusUrl() + " ");
@@ -88,13 +88,15 @@ public class DeployServiceImpl implements DeployService {
 				java.util.Properties config = new java.util.Properties();
 				config.put("StrictHostKeyChecking", "no");
 				session.setConfig(config);
-				session.setPassword("Jn+XSK!H");
+				//session.setPassword("Jn+XSK!H");
+				session.setPassword("123456");
 				session.connect();
 				openChannel = (ChannelExec) session.openChannel("exec");
 				openChannel.setCommand(commandBuffer.toString());
 				int exitStatus = openChannel.getExitStatus();
-				if(exitStatus != -1)
+				if(exitStatus != -1) {
 					WebSocketServer.sendMessage(taskId, host + APPEND + "认证失败:" + exitStatus);
+				}
 				openChannel.connect();
 				InputStream in = openChannel.getInputStream();
 				BufferedReader reader = new BufferedReader(new InputStreamReader(in));
@@ -106,27 +108,32 @@ public class DeployServiceImpl implements DeployService {
 					
 					WebSocketServer.sendMessage(taskId, host + "-------------" + result);
 					
-					//判断启动成功
-					for (String key : Constants.BOOT_KEY_SUCCESS_LIST) {
-						if (result.indexOf(key) > -1) {
-							if (openChannel != null && !openChannel.isClosed()) {
-								openChannel.disconnect();
-							}
-							if (session != null && session.isConnected()) {
-								session.disconnect();
-							}
-						} 
+					if (project.getType() == DeployType.NEXUS.getIndex()) {
+						//判断启动成功
+						for (String key : Constants.BOOT_KEY_SUCCESS_LIST) {
+							if (result.indexOf(key) > -1) {
+								if (openChannel != null && !openChannel.isClosed()) {
+									openChannel.disconnect();
+								}
+								if (session != null && session.isConnected()) {
+									session.disconnect();
+								}
+							} 
+						}
+						//判断启动失败
+						for (String key : Constants.BOOT_KEY_FAILURE_LIST) {
+							if (result.indexOf(key) > -1) {
+								if (openChannel != null && !openChannel.isClosed()) {
+									openChannel.disconnect();
+								}
+								if (session != null && session.isConnected()) {
+									session.disconnect();
+								}
+							} 
+						}
 					}
-					//判断启动失败
-					for (String key : Constants.BOOT_KEY_FAILURE_LIST) {
-						if (result.indexOf(key) > -1) {
-							if (openChannel != null && !openChannel.isClosed()) {
-								openChannel.disconnect();
-							}
-							if (session != null && session.isConnected()) {
-								session.disconnect();
-							}
-						} 
+					else {
+						System.out.println();
 					}
 				}
 			} catch (Exception e) {

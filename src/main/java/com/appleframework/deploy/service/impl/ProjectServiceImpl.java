@@ -28,6 +28,7 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	public Integer save(ProjectWithBLOBs record) throws AppleException {
+		record.setCreateAt(new Date());
 		projectMapper.insert(record);
 		return record.getId();
 	}
