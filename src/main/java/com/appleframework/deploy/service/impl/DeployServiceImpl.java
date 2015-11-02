@@ -84,9 +84,10 @@ public class DeployServiceImpl implements DeployService {
 			ChannelExec openChannel = null;
 			try {
 				JSch jsch = new JSch();
+				jsch.addIdentity("/root/.ssh/id_dsa");
 				session = jsch.getSession(project.getReleaseUser(), host, 22);
 				java.util.Properties config = new java.util.Properties();
-				config.put("StrictHostKeyChecking", "yes");
+				config.put("StrictHostKeyChecking", "no");
 				session.setConfig(config);
 				//session.setPassword("Jn+XSK!H");
 				//session.setPassword("123456");
