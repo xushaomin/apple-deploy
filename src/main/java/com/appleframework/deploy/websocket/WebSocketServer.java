@@ -189,7 +189,7 @@ public class WebSocketServer extends WebSocketServlet {
 			
 			//Map<String, String> data = new LinkedHashMap<String, String>();
 			//data.put(key, value)
-			String message = "任务(id=" + taskId + ")提交成功提交，等待部署中...";
+			String message = "任务(id=" + taskId + ")提交成功，等待部署中...";
 			try {
 				messages.put(message);
 			} catch (Exception e) {
