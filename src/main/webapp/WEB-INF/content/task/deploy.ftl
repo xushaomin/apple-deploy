@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta charset="utf-8">
-<title>集群管理</title>
+<title>部署管理</title>
 
 <#include "/content/commons/page_css.ftl" />
 <#include "/content/commons/page_js.ftl" />
@@ -15,7 +15,7 @@
 			function display() {
             	var valueLabel = $("#valueLabel");
                 valueLabel.innerHTML = "";
-                var ws = new WebSocket("ws://localhost:8080/push/deploy");
+                var ws = new WebSocket("${websocketUrl}/push/deploy");
                 ws.onmessage = function(evt) {
                     valueLabel.append(evt.data + "<br>");
                     GoBottom();
