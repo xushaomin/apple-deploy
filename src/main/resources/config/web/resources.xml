@@ -18,6 +18,7 @@
 	<mvc:resources mapping="/js/**" location="/static/js/" />
 	<mvc:resources mapping="/images/**" location="/static/images/" />
 	<mvc:resources mapping="/css/**" location="/static/css/" />
+	<mvc:resources mapping="/favicon.ico" location="/static/favicon.ico" />
 	
 	<!-- 
 	<mvc:resources mapping="/styles/**" location="http://static.aceona.com/style/" cache-period="31556926" />
