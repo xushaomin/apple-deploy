@@ -53,7 +53,6 @@ public class DeployServiceImpl implements DeployService {
         }); 
 	}
 	
-	
 	@Async
 	private void doDeployTask(Integer taskId) throws AppleException {
 		Constants.BOOT_STATUS_MAP.put(taskId, false);
@@ -63,7 +62,7 @@ public class DeployServiceImpl implements DeployService {
 		ProjectWithBLOBs project = projectService.get(task.getProjectId());
 		
 		String hostStr = project.getHosts();
-		String hosts[] = hostStr.trim().split(",");
+		String hosts[] = com.appleframework.deploy.utils.StringUtils.replaceBlank(hostStr).split(",");
 		for (String host : hosts) {
 			StringBuffer commandBuffer = new StringBuffer();
 			commandBuffer.append("mkdir -p " + project.getReleaseTo() + "\n");
