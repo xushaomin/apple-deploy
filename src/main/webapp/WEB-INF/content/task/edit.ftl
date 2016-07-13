@@ -26,6 +26,33 @@ $().ready(function() {
  		$inputForm.submit();
 	});
 	
+	$('#projectId').change(function(){
+		var prid =$(this).children('option:selected').val();
+		$.ajax({
+			    url: "/project/json?id=" + prid,
+			    dataType: "json",
+			    type: "GET",
+			    beforeSend: function() {
+			        //请求前的处理
+			    },
+			    success: function(data) {			        
+			 		var hosts = data.hosts;
+			        var hostArr = hosts.split(",");
+			        $('#hostsLabel').empty();
+			    	for(var i = 0; i< hostArr.length; i++){
+						var ckb = '<input name="hosts" type="checkbox" checked="checked" value="' + hostArr[i] + '" />' + hostArr[i] + '<br />';
+						$('#hostsLabel').append(ckb);
+					}
+			    },
+			    complete: function() {
+			        //请求完成的处理
+			    },
+			    error: function() {
+			        //请求出错处理
+			    }
+		});
+	})
+	
 	
 });
 </script>
@@ -43,19 +70,13 @@ $().ready(function() {
             <ul class="pop_list merchant_type_add">
             
                 	<li class="clearfix">
-                		<label for="title require" class="tit">任务标题：<span class=" red">*</span></label>
-                		<input class="c_input_text required" type="text" style="width:200px;" name="title" value="${(info.title)!}" realValue="请输入标题" maxlength="200" />
+                		<label for="title require" class="tit">任务ID：<span class=" red">*</span></label>
+                		${(info.id)!}
                		</li>
 
                 	<li class="clearfix">
                 		<label for="projectId" class="tit">所属项目：<span class=" red">*</span></label>
-                		<select class="c_select" name="projectId" style="width:150px;" id="projectId">
-                		<#list projectList as project>
-							<option value="${project.id}" <#if (info.projectId?? && project.id == info.projectId)> selected="selected"</#if>>
-								${project.name}
-							</option>
-						</#list>
-						</select>
+						${info.projectName}
                 	</li>
                 	
                 	<li class="clearfix">
@@ -69,7 +90,12 @@ $().ready(function() {
                			<span>${statusTypeMap[info.status?string].getName()}</span>
                			<input type="hidden" name="status" value="${(info.status)!}" />
                 	</li>
-
+					<li class="clearfix">
+                		<label for="hosts" class="tit">部署主机：<span class=" red">*</span></label>
+                		<label id="hostsLabel">
+                			${(info.hosts)!}
+                		<label>
+                	</li>
 					<li class="clearfix">
                 		<label for="exVersion" class="tit">上次版本：<span class=" red">*</span></label>
                 		<span>${(info.exVersion)!}</span>
@@ -79,6 +105,7 @@ $().ready(function() {
                 		<label for="version" class="tit">发布版本：<span class=" red">*</span></label>
                			<input class="c_input_text required" type="text" style="width:200px;" name="version" value="${(info.version)!}" realValue="请输入版本号" maxlength="200" />
                 	</li>
+                	
             </ul>
 
         </div>

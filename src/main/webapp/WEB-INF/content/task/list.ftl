@@ -83,32 +83,33 @@
     <table id="listTable" class="table_list list">
         <tr>
         	<th width="5%">序号</th>
-        	<th width="10%">任务标题</th>
+        	<!--<th width="10%">任务标题</th>-->
         	<th width="12%">所属项目</th>
-        	<th width="8%">类型</th>
+        	<th width="30%">部署主机</th>
         	<th width="8%">状态</th>
-        	<th width="12%">上线版本号</th>
         	<th width="8%">上次上线版本号</th>
+        	<th width="12%">本次上线版本号</th>
+        	
         	<th width="8%">更新时间</th>
 			<th width="10%">操作</th>
         </tr>
         <#list page.list as info>
         <tr class="even">
         	<td><!--<input type="checkbox" name="ids" value="${info.id}" />-->${info.id}</td>
-        	<td style="text-align:left;">${(info.title)!}</td>
+        	<!--<td style="text-align:left;">${(info.title)!}</td>-->
 			<td>${(info.projectName)!}</td>
-			<td>${actionTypeMap[info.action?string].getName()}</td>
+			<td>${(info.hosts)!}</td>
 			<td>${statusTypeMap[info.status?string].getName()}</td>
-			<td>${(info.version)!}</td>
 			<td>${(info.exVersion)!}</td>
+			<td>${(info.version)!}</td>
 			<td>
 				<#if info.updateAt?exists>
-				${info.updateAt?string('yyyy-MM-dd')}
+				${info.updateAt?string('yyyy-MM-dd HH:mm')}
 				<#else>-</#if>
 			</td>
 			<td>
 				<a class="btn_icon btn_edit"   href="javascript:;" operatId="${info.id}" title="编辑"></a>
-                <a class="btn_icon btn_detail" href="javascript:;" operatId="${info.id}" title="详情"></a>
+                <!--<a class="btn_icon btn_detail" href="javascript:;" operatId="${info.id}" title="详情"></a>-->
            		<a class="btn_icon btn_delete" href="javascript:;" operatId="${info.id}" title="删除"></a>
                 <a class="btn_icon btn_online" href="javascript:;" operatId="${info.id}" title="部署任务"></a>
 			</td>

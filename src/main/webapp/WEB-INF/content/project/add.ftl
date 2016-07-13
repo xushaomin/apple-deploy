@@ -14,10 +14,16 @@ $().ready(function() {
 	// 表单验证
 	$inputForm.validate({
 		rules: {
-			
+			"name": {
+				required: true,
+				remote: "check_name"
+			}
 		},
 		messages: {
-			
+			"name": {
+				required: "必填",
+				remote: "项目已存在"
+			}
 		},
 		submitHandler:function(form){
             form.submit();
@@ -91,6 +97,16 @@ function proccessType() {
                 		<#list envTypeList as env>
 							<option value="${env.getIndex()}">
 								${env.getName()}
+							</option>
+						</#list>
+						</select>
+                	</li>
+                	<li class="clearfix">
+                		<label for="env" class="tit">部署插件：<span class=" red">*</span></label>
+                		<select class="c_select" name="plus" style="width:150px;" id="plus">
+                		<#list plusTypeList as plus>
+							<option value="${plus.getIndex()}">
+								${plus.getName()}
 							</option>
 						</#list>
 						</select>

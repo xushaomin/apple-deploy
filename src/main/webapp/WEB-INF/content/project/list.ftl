@@ -80,10 +80,11 @@
         	<th width="5%">序号</th>
         	<th width="10%">项目</th>
         	<th width="6%">类型</th>
-        	<th width="12%">发布环境</th>
+        	<th width="8%">部署插件</th>
+        	<th width="8%">发布环境</th>
         	<th width="8%">当前版本</th>
-        	<th width="20%">安装目录</th>
-        	<th width="10%">安装帐号</th>
+        	<th width="15%">安装目录</th>
+        	<th width="8%">安装帐号</th>
         	<th width="8%">创建时间</th>
         	<th width="6%">审核状态</th>
         	<th width="6%">状态</th>
@@ -94,6 +95,7 @@
         	<td><!--<input type="checkbox" name="ids" value="${info.id}" />-->${info.id}</td>
         	<td>${(info.name)!''}</td>
         	<td><#if info.type==1>工程<#else>脚本</#if></td>
+        	<td>${plusTypeMap[info.plus?string]}</td>
         	<td>${envTypeMap[info.env?string]}</td>
         	<td>${(info.version)!'-'}</td>
 			<td style="text-align:left;">${(info.releaseTo)!'-'}</td>
