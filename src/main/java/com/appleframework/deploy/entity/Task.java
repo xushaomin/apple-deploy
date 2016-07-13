@@ -10,6 +10,8 @@ public class Task implements Serializable {
     private Integer projectId;
 
     private String projectName;
+    
+    private String hosts;
 
     private String title;
 
@@ -126,4 +128,13 @@ public class Task implements Serializable {
     public void setUpdateBy(String updateBy) {
         this.updateBy = updateBy == null ? null : updateBy.trim();
     }
+
+	public String getHosts() {
+		return hosts;
+	}
+
+	public void setHosts(String hosts) {
+		this.hosts = hosts;
+	}
+    
 }

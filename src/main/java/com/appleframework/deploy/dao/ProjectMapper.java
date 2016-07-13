@@ -6,6 +6,7 @@ import com.appleframework.deploy.entity.Project;
 import com.appleframework.deploy.entity.ProjectWithBLOBs;
 @Repository
 public interface ProjectMapper {
+	
     int deleteByPrimaryKey(Integer id);
 
     int insert(ProjectWithBLOBs record);

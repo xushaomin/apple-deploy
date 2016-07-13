@@ -14,6 +14,7 @@ import com.appleframework.deploy.entity.Project;
 import com.appleframework.deploy.entity.ProjectWithBLOBs;
 import com.appleframework.deploy.model.ProjectSo;
 import com.appleframework.deploy.service.ProjectService;
+import com.appleframework.deploy.service.TaskService;
 import com.appleframework.exception.AppleException;
 import com.appleframework.model.page.Pagination;
 
@@ -25,6 +26,9 @@ public class ProjectServiceImpl implements ProjectService {
 	
 	@Resource
 	private ProjectExtendMapper projectExtendMapper;
+	
+	@Resource
+	private TaskService taskService;
 
 	@Override
 	public Integer save(ProjectWithBLOBs record) throws AppleException {
@@ -42,7 +46,10 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	public Integer delete(Integer id) throws AppleException {
-		projectMapper.deleteByPrimaryKey(id);
+		ProjectWithBLOBs record = this.get(id);
+		record.setStatus(2);
+		this.update(record);
+		taskService.deleteByProjectId(id);
 		return id;
 	}
 
@@ -96,5 +103,4 @@ public class ProjectServiceImpl implements ProjectService {
 		return page;
 	}
 	
-
 }

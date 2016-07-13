@@ -13,5 +13,7 @@ import com.appleframework.model.page.Pagination;
 public interface TaskExtendMapper {
 
 	List<Project> selectByPage(@Param("page") Pagination page, @Param("so") TaskSo so);
+	
+	void deleteByProjectId(@Param("projectId") Integer projectId);
 
 }

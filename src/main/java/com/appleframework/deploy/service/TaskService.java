@@ -16,5 +16,7 @@ public interface TaskService {
 	public Task get(Integer id);
 	
 	public Pagination findPage(Pagination page, TaskSo so);
+	
+	public void deleteByProjectId(Integer projectId) throws AppleException;
 		
 }

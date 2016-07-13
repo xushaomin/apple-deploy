@@ -6,6 +6,7 @@ import com.appleframework.deploy.entity.Task;
 
 @Repository
 public interface TaskMapper {
+	
     int deleteByPrimaryKey(Integer id);
 
     int insert(Task record);

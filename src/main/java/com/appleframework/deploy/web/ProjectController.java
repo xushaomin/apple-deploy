@@ -20,10 +20,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.appleframework.deploy.entity.Project;
 import com.appleframework.deploy.entity.ProjectWithBLOBs;
 import com.appleframework.deploy.model.EnvType;
+import com.appleframework.deploy.model.PlusType;
 import com.appleframework.deploy.model.ProjectSo;
 import com.appleframework.deploy.service.ProjectService;
 import com.appleframework.exception.AppleException;
 import com.appleframework.model.page.Pagination;
+import com.appleframework.web.bean.Message;
 import com.appleframework.web.springmvc.controller.BaseController;
 
 @Controller
@@ -42,6 +44,8 @@ public class ProjectController extends BaseController {
 		model.addAttribute("page", page);
 		model.addAttribute("envTypeMap", this.getEnvTypeMap());
 		model.addAttribute("envTypeList", this.getEnvTypeList());
+		model.addAttribute("plusTypeMap", this.getPlusTypeMap());
+		model.addAttribute("plusTypeList", this.getPlusTypeList());
 		return viewModel + "list";
 	}
 	
@@ -55,6 +59,7 @@ public class ProjectController extends BaseController {
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public String add(Model model, HttpServletResponse response) throws Exception {
 		model.addAttribute("envTypeList", this.getEnvTypeList());
+		model.addAttribute("plusTypeList", this.getPlusTypeList());
 		return viewModel +"/add";
 	}
 	
@@ -75,6 +80,7 @@ public class ProjectController extends BaseController {
 		ProjectWithBLOBs info = projectService.get(id);
 		model.addAttribute("info", info);
 		model.addAttribute("envTypeList", this.getEnvTypeList());
+		model.addAttribute("plusTypeList", this.getPlusTypeList());
 		return viewModel + "/edit";
 	}
 	
@@ -90,6 +96,7 @@ public class ProjectController extends BaseController {
 		ProjectWithBLOBs info = projectService.get(id);
 		model.addAttribute("info", info);
 		model.addAttribute("envTypeList", this.getEnvTypeList());
+		model.addAttribute("plusTypeList", this.getPlusTypeList());
 		return viewModel + "/copy";
 	}
 	
@@ -108,6 +115,22 @@ public class ProjectController extends BaseController {
 		addSuccessMessage(model, "修改成功");
 		return SUCCESS_AJAX;
 	}
+	
+	@RequestMapping(value = "/json")
+	public @ResponseBody ProjectWithBLOBs json(Integer id) {
+		ProjectWithBLOBs info = projectService.get(id);
+		return info;
+	}
+	
+	@RequestMapping(value = "/delete", method = RequestMethod.POST)
+	public @ResponseBody Message delete(Integer id, HttpServletRequest request) {
+		try {
+			projectService.delete(id);
+			return SUCCESS_MESSAGE;
+		} catch (AppleException e) {
+			return Message.error(e.getMessage());
+		}
+	}
 		
 	public List<EnvType> getEnvTypeList() {
 		return Arrays.asList(EnvType.values());
@@ -120,6 +143,29 @@ public class ProjectController extends BaseController {
 			map.put(envType.getIndex() + "", envType);
 		}
 		return map;
+	}
+	
+	public List<PlusType> getPlusTypeList() {
+		return Arrays.asList(PlusType.values());
+	}
+	
+	public Map<String, PlusType> getPlusTypeMap() {
+		List<PlusType> list = this.getPlusTypeList();
+		Map<String, PlusType> map = new HashMap<String, PlusType>();
+		for (PlusType plusType : list) {
+			map.put(plusType.getIndex() + "", plusType);
+		}
+		return map;
+	}
+	
+	// AJAX唯一验证
+	@RequestMapping(value = "/check_name", method = RequestMethod.GET)
+	public @ResponseBody String checkName(String oldName, String name) {
+		if (projectService.isUniqueByName(oldName, name)) {
+			return ajax("true");
+		} else {
+			return ajax("false");
+		}
 	}
 			
 }

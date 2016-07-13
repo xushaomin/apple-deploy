@@ -12,6 +12,8 @@ public class Project implements Serializable {
     private Integer type;
     
     private Integer env;
+    
+    private Integer plus;
 
     private Integer status;
 
@@ -165,6 +167,14 @@ public class Project implements Serializable {
 
 	public void setEnv(Integer env) {
 		this.env = env;
+	}
+
+	public Integer getPlus() {
+		return plus;
+	}
+
+	public void setPlus(Integer plus) {
+		this.plus = plus;
 	}
     
 }

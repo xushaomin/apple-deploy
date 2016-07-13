@@ -42,6 +42,11 @@ public class TaskServiceImpl implements TaskService {
 		taskMapper.deleteByPrimaryKey(id);
 		return id;
 	}
+	
+	@Override
+	public void deleteByProjectId(Integer projectId) throws AppleException {
+		taskExtendMapper.deleteByProjectId(projectId);
+	}
 
 	@Override
 	public Task get(Integer id) {
@@ -53,6 +58,8 @@ public class TaskServiceImpl implements TaskService {
 		page.setList(taskExtendMapper.selectByPage(page, so));
 		return page;
 	}
+	
+	
 	
 
 }

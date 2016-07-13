@@ -1,27 +1,23 @@
 package com.appleframework.deploy.model;
 
-public enum EnvType {
+public enum PlusType {
 
-	DEV("开发环境", 1),
-	TEST("测试环境", 2),
-	DEMO("预发布环境", 3),	
-	RELEASE("正式环境", 4),
-	//PERFORM("性能测试环境", 5);
-	SHENZHEN("性能测试环境", 5);
+	SHELL("SHELL脚本", 1),
+	SSH("远程SSH", 2);
 	
 	// 成员变量
 	private String name;
 	private Integer index;
 
 	// 构造方法
-	private EnvType(String name, Integer index) {
+	private PlusType(String name, Integer index) {
 		this.name = name;
 		this.index = index;
 	}
 	
 	// 普通方法
 	public static String getName(Integer index) {
-		for (EnvType c : EnvType.values()) {
+		for (PlusType c : PlusType.values()) {
 			if (c.getIndex() == index) {
 				return c.name;
 			}
@@ -29,8 +25,8 @@ public enum EnvType {
 		return null;
 	}
 	
-	public static EnvType create(Integer index) {
-		for (EnvType c : EnvType.values()) {
+	public static PlusType create(Integer index) {
+		for (PlusType c : PlusType.values()) {
 			if (c.getIndex() == index) {
 				return c;
 			}

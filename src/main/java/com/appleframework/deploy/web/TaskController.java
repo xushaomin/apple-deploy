@@ -10,7 +10,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +28,7 @@ import com.appleframework.deploy.service.TaskService;
 import com.appleframework.deploy.utils.Constants;
 import com.appleframework.exception.AppleException;
 import com.appleframework.model.page.Pagination;
+import com.appleframework.web.bean.Message;
 import com.appleframework.web.springmvc.controller.BaseController;
 
 @Controller
@@ -45,6 +45,8 @@ public class TaskController extends BaseController {
 	private ProjectService projectService;
 		
 	private String viewModel = "task/";
+		
+	private String websocketUrl = PropertyConfigurer.getString("websocket.url");
 	
 	@RequestMapping(value = "/list")
 	public String list(Model model, TaskSo so, Pagination page, HttpServletRequest request) {
@@ -79,6 +81,7 @@ public class TaskController extends BaseController {
 	public String save(Model model, Task task, HttpServletRequest request) {
 		try {
 			Project project = projectService.get(task.getProjectId());
+			task.setTitle(System.currentTimeMillis() + "");
 			task.setProjectName(project.getName());
 			task.setExVersion(project.getVersion());
 			taskService.save(task);
@@ -119,8 +122,9 @@ public class TaskController extends BaseController {
 			task.setExVersion(project.getVersion());
 			Task old = taskService.get(task.getId());
 			old.setUpdateAt(new Date());
-			String[] ignoreProperties = {"createAt", "create_by"};
-			BeanUtils.copyProperties(task, old, ignoreProperties);
+			/*String[] ignoreProperties = {"createAt", "create_by"};
+			BeanUtils.copyProperties(task, old, ignoreProperties);*/
+			old.setVersion(task.getVersion());
 			taskService.update(old);
 		} catch (AppleException e) {
 			addErrorMessage(model, e.getMessage());
@@ -138,7 +142,7 @@ public class TaskController extends BaseController {
 				deployService.doDeploy(id);
 			}
 			model.addAttribute("taskId", id);
-			model.addAttribute("websocketUrl", PropertyConfigurer.getProperty("websocket.url"));
+			model.addAttribute("websocketUrl", websocketUrl);
 		} catch (AppleException e) {
 			e.printStackTrace();
 		}
@@ -185,14 +189,12 @@ public class TaskController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/delete")
-	public String delete(Model model, Integer id, HttpServletRequest request) {
+	public @ResponseBody Message delete(Model model, Integer id) {
 		try {
 			taskService.delete(id);
+			return SUCCESS_MESSAGE;
 		} catch (Exception e) {
-			addErrorMessage(model, e.getMessage());
-			return ERROR_AJAX;
+			return Message.error(e.getMessage());
 		}
-		addSuccessMessage(model, "添加成功");
-		return SUCCESS_AJAX;
 	}
 }
