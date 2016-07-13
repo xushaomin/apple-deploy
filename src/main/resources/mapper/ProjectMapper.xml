@@ -6,6 +6,7 @@
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="type" property="type" jdbcType="INTEGER" />
     <result column="env" property="env" jdbcType="INTEGER" />
+    <result column="plus" property="plus" jdbcType="INTEGER" />
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="version" property="version" jdbcType="VARCHAR" />
     <result column="nexus_url" property="nexusUrl" jdbcType="VARCHAR" />
@@ -26,7 +27,7 @@
     <result column="after_deploy" property="afterDeploy" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, type, env, status, version, nexus_url, nexus_group, nexus_artifact, release_user, 
+    id, name, type, env, plus, status, version, nexus_url, nexus_group, nexus_artifact, release_user, 
     release_to, is_audit, create_at, update_at, create_by, update_by
   </sql>
   <sql id="Blob_Column_List" >
@@ -48,7 +49,7 @@
     <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into dep_project (name, type, env, 
+    insert into dep_project (name, type, env, plus,
       status, version, nexus_url, 
       nexus_group, nexus_artifact, release_user, 
       release_to, is_audit, create_at, 
@@ -56,6 +57,7 @@
       hosts, pre_deploy, post_deploy, 
       after_deploy)
     values (#{name,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{env,jdbcType=INTEGER}, 
+      #{plus,jdbcType=INTEGER}, 
       #{status,jdbcType=INTEGER}, #{version,jdbcType=VARCHAR}, #{nexusUrl,jdbcType=VARCHAR}, 
       #{nexusGroup,jdbcType=VARCHAR}, #{nexusArtifact,jdbcType=VARCHAR}, #{releaseUser,jdbcType=VARCHAR}, 
       #{releaseTo,jdbcType=VARCHAR}, #{isAudit,jdbcType=BIT}, #{createAt,jdbcType=TIMESTAMP}, 
@@ -77,6 +79,9 @@
       </if>
       <if test="env != null" >
         env,
+      </if>
+      <if test="plus != null" >
+        plus,
       </if>
       <if test="status != null" >
         status,
@@ -136,6 +141,9 @@
       </if>
       <if test="env != null" >
         #{env,jdbcType=INTEGER},
+      </if>
+      <if test="plus != null" >
+        #{plus,jdbcType=INTEGER},
       </if>
       <if test="status != null" >
         #{status,jdbcType=INTEGER},
@@ -199,6 +207,9 @@
       <if test="env != null" >
         env = #{env,jdbcType=INTEGER},
       </if>
+      <if test="plus != null" >
+        plus = #{plus,jdbcType=INTEGER},
+      </if>
       <if test="status != null" >
         status = #{status,jdbcType=INTEGER},
       </if>
@@ -255,6 +266,7 @@
     set name = #{name,jdbcType=VARCHAR},
       type = #{type,jdbcType=INTEGER},
       env = #{env,jdbcType=INTEGER},
+      plus = #{plus,jdbcType=INTEGER},
       status = #{status,jdbcType=INTEGER},
       version = #{version,jdbcType=VARCHAR},
       nexus_url = #{nexusUrl,jdbcType=VARCHAR},
@@ -278,6 +290,7 @@
     set name = #{name,jdbcType=VARCHAR},
       type = #{type,jdbcType=INTEGER},
       env = #{env,jdbcType=INTEGER},
+      plus = #{plus,jdbcType=INTEGER},
       status = #{status,jdbcType=INTEGER},
       version = #{version,jdbcType=VARCHAR},
       nexus_url = #{nexusUrl,jdbcType=VARCHAR},

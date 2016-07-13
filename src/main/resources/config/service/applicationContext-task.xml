@@ -44,6 +44,6 @@
 	        <!-- DiscardPolicy:抛弃当前任务、暂不支持；会导致被丢弃的任务无法再次被执行 -->          
 	        <bean class="java.util.concurrent.ThreadPoolExecutor$CallerRunsPolicy" />          
 	    </property>
-	</bean>    
+	</bean>
 	 
 </beans>

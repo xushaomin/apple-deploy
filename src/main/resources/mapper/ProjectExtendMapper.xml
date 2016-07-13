@@ -6,6 +6,7 @@
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="type" property="type" jdbcType="INTEGER" />
     <result column="env" property="env" jdbcType="INTEGER" />
+    <result column="plus" property="plus" jdbcType="INTEGER" />
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="version" property="version" jdbcType="VARCHAR" />
     <result column="nexus_url" property="nexusUrl" jdbcType="VARCHAR" />
@@ -26,7 +27,7 @@
     <result column="after_deploy" property="afterDeploy" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, type, env, status, version, nexus_url, nexus_group, nexus_artifact, release_user, 
+    id, name, type, env, plus, status, version, nexus_url, nexus_group, nexus_artifact, release_user, 
     release_to, is_audit, create_at, update_at, create_by, update_by
   </sql>
   <sql id="Blob_Column_List" >
@@ -37,7 +38,7 @@
     select 
     <include refid="Base_Column_List" />
     from dep_project
-    where 1=1
+    where status in (0,1)
     <if test="so.name != null" >
         and name like '%${so.name}%'
 	</if>
@@ -51,6 +52,21 @@
     select 
     <include refid="Base_Column_List" />
     from dep_project
+	order by id asc 
+  </select>
+  
+  <select id="countByName" resultType="java.lang.Integer">
+    select count(*)
+    from dep_project
+    where status in (0,1) and name = '${name}'
+	order by id asc 
+  </select>
+  
+  <select id="selectByName" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dep_project
+    where status in (0,1) and name = '${name}'
 	order by id asc 
   </select>
 
