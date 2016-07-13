@@ -63,7 +63,7 @@ function proccessType() {
 <body>
 <form id="inputForm" method="post" action="save">
 	
-    <div id="auditTab" class="pop_main" style="width:600px;border: 0px solid;">
+    <div id="auditTab" class="pop_main" style="width:600px;border: 0px solid; height:420px; overflow:auto;">
 
        <div class="pop_information_mod">
             <ul class="pop_list merchant_type_add">
