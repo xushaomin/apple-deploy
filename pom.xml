@@ -5,18 +5,19 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.appleframework.deploy</groupId>
 	<artifactId>apple-deploy</artifactId>
-	<version>0.0.3.RELEASE</version>
+	<version>0.0.5.RELEASE</version>
 	<packaging>jar</packaging>
 	<name>apple-deploy</name>
 	<url>http://mvnrepo.appleframework.com</url>
 
 	<properties>
-		<apple.version>0.1.0.RELEASE</apple.version>
-		<config.version>0.1.1.RELEASE</config.version>
-		<boot.version>0.1.6.RELEASE</boot.version>
-		<orm.version>0.0.5.RELEASE</orm.version>
+		<apple.version>0.1.5.RELEASE</apple.version>
+		<config.version>0.2.1.RELEASE</config.version>
+		<boot.version>0.3.0.RELEASE</boot.version>
+		<orm.version>0.1.3.RELEASE</orm.version>
 		<aspectj.version>1.6.8</aspectj.version>
-		<jetty.version>8.1.6.v20120903</jetty.version>
+		<jetty.version>8.1.17.v20150415</jetty.version>
+		<spring.version>4.2.0.RELEASE</spring.version>
 	</properties>
 
 	<dependencies>
@@ -31,32 +32,18 @@
 			<groupId>com.appleframework</groupId>
 			<artifactId>apple-core</artifactId>
 			<version>${apple.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>javax.validation</groupId>
-    				<artifactId>validation-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>commons-logging</groupId>
-  					<artifactId>commons-logging</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>commons-lang</groupId>
-  					<artifactId>commons-lang</artifactId>
-				</exclusion>
-			</exclusions>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.appleframework</groupId>
+			<artifactId>apple-model</artifactId>
+			<version>${apple.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.appleframework</groupId>
 			<artifactId>apple-web</artifactId>
 			<version>${apple.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>javax.validation</groupId>
-					<artifactId>validation-api</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 
 		<dependency>
@@ -91,16 +78,6 @@
 			<groupId>com.appleframework.orm</groupId>
 			<artifactId>apple-orm-mybatis</artifactId>
 			<version>${orm.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>javax.validation</groupId>
-					<artifactId>validation-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.hibernate</groupId>
-					<artifactId>hibernate-validator</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 
 		<dependency>
@@ -131,19 +108,7 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		
-		<dependency>
-			<groupId>javax.validation</groupId>
-			<artifactId>validation-api</artifactId>
-			<version>1.0.0.GA</version>
-		</dependency>
-				
-		<dependency>
-      		<groupId>org.hibernate</groupId>
-      		<artifactId>hibernate-validator</artifactId>
-      		<version>4.3.2.Final</version>
-    	</dependency>
-    			
+		    			
 		<dependency>
 		    <groupId>org.jdom</groupId>
 		    <artifactId>jdom</artifactId>
@@ -163,8 +128,21 @@
 		    <version>1.1.1</version>
 		</dependency>
 		 -->
+		
+		
+		<!-- Apache Commons -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-exec</artifactId>
+			<version>1.3</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.4</version>
+		</dependency>
 		 
-		 <dependency>
+		<dependency>
 			<groupId>commons-modeler</groupId>
 			<artifactId>commons-modeler</artifactId>
 			<version>2.0.1</version>
@@ -175,19 +153,39 @@
         	<artifactId>log4j</artifactId>
         	<version>1.2.16</version>
       	</dependency>
-      	
-      	<dependency>
-	  		<groupId>com.appleframework.boot</groupId>
-	  		<artifactId>apple-boot-core</artifactId>
-	  		<version>0.1.5.RELEASE</version>
-		</dependency>
-		
+      			
 		<dependency>
 		    <groupId>com.jcraft</groupId>
 		    <artifactId>jsch</artifactId>
 		    <version>0.1.53</version>
 		</dependency>
 		 
+		 <dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		
 	</dependencies>
 
 
@@ -345,13 +343,13 @@
 		<repository>
 			<id>nexus-releases</id>
 			<name>Local Nexus Releases Repository</name>
-			<url>http://mvnrepo.appleframework.com/nexus/content/repositories/releases</url>
+			<url>http://192.168.1.196:8081/nexus/content/repositories/releases</url>
 		</repository>
 
 		<snapshotRepository>
 			<id>nexus-snapshots</id>
 			<name>Local Nexus Snapshots Repository</name>
-			<url>http://mvnrepo.appleframework.com/nexus/content/repositories/snapshots</url>
+			<url>http://192.168.1.196:8081/nexus/content/repositories/snapshots</url>
 		</snapshotRepository>
 	</distributionManagement>
 
